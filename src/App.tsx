@@ -12,10 +12,11 @@ import Scott from './images/scott.png';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            height: '100vh',
+            minHeight: '100vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            backgroundAttachment: 'fixed',
             backgroundColor: 'black',
             backgroundImage: `url(${Scott})`,
             backgroundSize: 'cover',

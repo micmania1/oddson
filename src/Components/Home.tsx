@@ -46,8 +46,7 @@ const Home = (props: Props) => {
             challenge,
         };
 
-        const challengeResponse = await createChallenge(body);
-        const challengeInfo = challengeResponse.data;
+        const { data: challengeInfo } = await createChallenge(body);
 
         setRedirectTo(`/arena/${challengeInfo.id}`)
     }

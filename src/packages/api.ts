@@ -55,56 +55,43 @@ export interface Challenge {
      * @type {string}
      * @memberof Challenge
      */
-    challenge?: string;
+    challenge: string;
     /**
      * 
      * @type {number}
      * @memberof Challenge
      */
-    odds?: number;
+    odds: number;
     /**
      * 
      * @type {Person}
      * @memberof Challenge
      */
-    challenger?: Person;
+    challenger: Person;
     /**
      * 
      * @type {Person}
      * @memberof Challenge
      */
-    victim?: Person;
+    victim: Person;
     /**
      * 
      * @type {string}
      * @memberof Challenge
      */
-    state?: ChallengeStateEnum;
+    status: ChallengeStatusEnum;
 }
 
 /**
     * @export
     * @enum {string}
     */
-export enum ChallengeStateEnum {
+export enum ChallengeStatusEnum {
     New = 'new',
     Activated = 'activated',
     Complete = 'complete'
 }
 
-/**
- * 
- * @export
- * @interface CheckChallengeRequest
- */
-export interface CheckChallengeRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof CheckChallengeRequest
-     */
-    id?: string;
-}
 /**
  * 
  * @export
@@ -206,12 +193,17 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Check the status of an existing challenge
-         * @param {CheckChallengeRequest} [checkChallengeRequest] 
+         * @param {string} id challenge id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        checkChallenge(checkChallengeRequest?: CheckChallengeRequest, options: any = {}): RequestArgs {
-            const localVarPath = `/check`;
+        checkChallenge(id: string, options: any = {}): RequestArgs {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling checkChallenge.');
+            }
+            const localVarPath = `/check/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
@@ -223,14 +215,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
 
     
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (typeof checkChallengeRequest !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(checkChallengeRequest !== undefined ? checkChallengeRequest : {}) : (checkChallengeRequest || "");
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -331,12 +319,12 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Check the status of an existing challenge
-         * @param {CheckChallengeRequest} [checkChallengeRequest] 
+         * @param {string} id challenge id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        checkChallenge(checkChallengeRequest?: CheckChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Challenge> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).checkChallenge(checkChallengeRequest, options);
+        checkChallenge(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Challenge> {
+            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).checkChallenge(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -392,12 +380,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Check the status of an existing challenge
-         * @param {CheckChallengeRequest} [checkChallengeRequest] 
+         * @param {string} id challenge id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        checkChallenge(checkChallengeRequest?: CheckChallengeRequest, options?: any): AxiosPromise<Challenge> {
-            return DefaultApiFp(configuration).checkChallenge(checkChallengeRequest, options)(axios, basePath);
+        checkChallenge(id: string, options?: any): AxiosPromise<Challenge> {
+            return DefaultApiFp(configuration).checkChallenge(id, options)(axios, basePath);
         },
         /**
          * 
@@ -444,13 +432,13 @@ export class DefaultApi extends BaseAPI {
     /**
      * 
      * @summary Check the status of an existing challenge
-     * @param {CheckChallengeRequest} [checkChallengeRequest] 
+     * @param {string} id challenge id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public checkChallenge(checkChallengeRequest?: CheckChallengeRequest, options?: any) {
-        return DefaultApiFp(this.configuration).checkChallenge(checkChallengeRequest, options)(this.axios, this.basePath);
+    public checkChallenge(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).checkChallenge(id, options)(this.axios, this.basePath);
     }
 
     /**

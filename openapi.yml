@@ -62,7 +62,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CompleteChallengeRequest'
 
-  /check:
+  /check/{id}:
     get:
       summary: Check the status of an existing challenge
       operationId: checkChallenge
@@ -74,11 +74,14 @@ paths:
               schema:
                 type: object
                 $ref: '#/components/schemas/Challenge'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CheckChallengeRequest'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: challenge id
 
 components:
   schemas:
@@ -120,21 +123,21 @@ components:
       properties:
         number:
           type: number
-    CheckChallengeRequest:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
 
     Challenge:
       required:
         - id
+        - challenge
+        - odds
+        - challenger
+        - victim
+        - status
       type: object
       properties:
         id:
           type: string
           format: uuid
+          example: fe5d746a-e582-4cec-b2c8-d0c44e9108d1
         challenge:
           type: string
           example: Do the thing
@@ -144,7 +147,7 @@ components:
           $ref: '#/components/schemas/Person'
         victim:
           $ref: '#/components/schemas/Person'
-        state:
+        status:
           type: string
           enum: [new, activated, complete]
     Person:
