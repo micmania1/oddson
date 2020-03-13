@@ -140,8 +140,6 @@ components:
           example: Do the thing
         odds:
           type: number
-          format: date-time
-          example: '2019-12-27T07:17:23Z'
         challenger:
           $ref: '#/components/schemas/Person'
         victim:
