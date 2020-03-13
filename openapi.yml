@@ -1,0 +1,159 @@
+openapi: 3.0.0
+info:
+  description: Api endpoints for http://oddson.dev/
+  version: "1.0.0"
+  title: Odds on
+paths:
+  /new:
+    post:
+      summary: Creates a new challenge
+      operationId: createChallenge
+      responses:
+        '200':
+          description: Challenge created
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Challenge'
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateChallengeRequest'
+  /activate:
+    post:
+      summary: Victim activates the challenge by entering their odds
+      operationId: activateChallenge
+      responses:
+        '200':
+          description: Challenge activated
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Challenge'
+        '400':
+          description: 'invalid input, object invalid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivateChallengeRequest'
+  /complete:
+    post:
+      summary: Complete the challenge by guessing the victim's odds
+      operationId: completeChallenge
+      responses:
+        '200':
+          description: Challenge outcome
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Challenge'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteChallengeRequest'
+
+  /check:
+    get:
+      summary: Check the status of an existing challenge
+      operationId: checkChallenge
+      responses:
+        '200':
+          description: Challenge status
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/Challenge'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckChallengeRequest'
+
+components:
+  schemas:
+    CreateChallengeRequest:
+      type: object
+      required:
+        - challenger
+        - victim
+        - challenge
+      properties:
+        challenger:
+          type: string
+          example: Scott
+          minLength: 2
+          maxLength: 100
+        victim:
+          type: string
+          example: Michael
+          minLength: 2
+          maxLength: 100
+        challenge:
+          type: string
+          example: Do the thing
+          minLength: 2
+    ActivateChallengeRequest:
+      type: object
+      required:
+        - odds
+        - number
+      properties:
+        odds:
+          type: number
+        number:
+          type: number
+    CompleteChallengeRequest:
+      type: object
+      required:
+        - number
+      properties:
+        number:
+          type: number
+    CheckChallengeRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+
+    Challenge:
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        challenge:
+          type: string
+          example: Do the thing
+        odds:
+          type: number
+          format: date-time
+          example: '2019-12-27T07:17:23Z'
+        challenger:
+          $ref: '#/components/schemas/Person'
+        victim:
+          $ref: '#/components/schemas/Person'
+        state:
+          type: string
+          enum: [new, activated, complete]
+    Person:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Scott
+        number:
+          type: number
