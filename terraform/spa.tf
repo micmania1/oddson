@@ -3,31 +3,35 @@ provider "aws" {
   region  = "us-east-1"
 }
 
-module "s3-bucket" {
-  source  = "terraform-aws-modules/s3-bucket/aws"
-  version = "1.6.0"
-  # insert the 6 required variables here
-  website = {
+resource "aws_s3_bucket" "web" {
+  website {
     index_document = "index.html"
     error_document = "index.html"
   }
-  acl           = "public-read"
-  attach_policy = true
+}
+
+resource "aws_s3_bucket_policy" "website_bucket_policy" {
+  bucket = aws_s3_bucket.web.bucket
+
   policy = <<POLICY
 {
-    "Version": "2012-10-17",
-    "Id": "WebsiteBucketPolicy",
-    "Statement": [
-        {
-            "Sid": "PublicReadGetObject",
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "*"
-            },
-            "Action": ["s3:GetObject"],
-            "Resource": ["arn:aws:s3:::terraform-20200312231639136000000001/*"]
-        }
-    ]
+  "Version": "2012-10-17",
+  "Id": "WebsiteBucketPolicy",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": ["s3:GetObject"],
+      "Resource": ["arn:aws:s3:::${aws_s3_bucket.web.bucket}/*"]
+    }
+  ]
 }
 POLICY
+}
+
+output "website_url" {
+  value = aws_s3_bucket.web.website_endpoint
 }
