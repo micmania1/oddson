@@ -12,7 +12,7 @@ interface Props {
 const Arena = (props: Props) => {
     const [loading, setLoading] = useState(true);
     const [challenge, setChallenge] = useState<Challenge|undefined>();
-    let { arenaId } = useParams();
+    const { arenaId } = useParams();
 
     useEffect(() => {
         const load = async () => {
@@ -44,7 +44,7 @@ const Arena = (props: Props) => {
         return (
             <div>
                 <p>Waiting for other person to enter odds...</p>
-                <p>Give this link to {challenge.victim.name}</p>
+                <p>Give this link to {challenge.victim.name}: {`${window.location.origin}/#/challenge/${arenaId}`}</p>
             </div>
         );
     }

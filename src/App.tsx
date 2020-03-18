@@ -7,6 +7,7 @@ import CustomTheme from './Theme';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import Home from './Components/Home';
 import Arena from './Components/Arena';
+import Challenge from './Components/Challenge';
 import Scott from './images/scott.png';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,6 +41,7 @@ const App: React.FC = () => {
                     <Router>
                         <Route path="/" exact component={Home} />
                         <Route path="/arena/:arenaId" component={Arena} />
+                        <Route path="/challenge/:arenaId" component={Challenge} />
                     </Router>
                 </Paper>
             </Container>
