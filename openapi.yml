@@ -73,7 +73,7 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/CheckResponse'
       parameters:
         - in: path
           name: id
@@ -85,6 +85,24 @@ paths:
 
 components:
   schemas:
+    # Response Models
+    CheckResponse:
+      allOf:
+        - $ref: '#/components/schemas/Challenge'
+      example:
+        id: fe5d746a-e582-4cec-b2c8-d0c44e9108d1
+        challenge: Do the thing
+        odds: 0
+        challenger:
+          name: Challenger
+          number: 0
+        victim:
+          name: Victim
+          number: 2
+        status: new
+
+
+    # Request Models
     CreateChallengeRequest:
       type: object
       required:
@@ -124,6 +142,7 @@ components:
         number:
           type: number
 
+    # Models
     Challenge:
       required:
         - id
