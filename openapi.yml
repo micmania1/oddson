@@ -25,7 +25,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateChallengeRequest'
-  /activate:
+  /activate/{id}:
     post:
       summary: Victim activates the challenge by entering their odds
       operationId: activateChallenge
@@ -36,9 +36,17 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/ChallengeResponse'
         '400':
           description: 'invalid input, object invalid'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: challenge id
       requestBody:
         content:
           application/json:
@@ -141,6 +149,20 @@ components:
       properties:
         number:
           type: number
+    ChallengeResponse:
+      allOf:
+        - $ref: '#/components/schemas/Challenge'
+      example:
+        id: fe5d746a-e582-4cec-b2c8-d0c44e9108d1
+        challenge: Do the thing
+        odds: 20
+        challenger:
+          name: Challenger
+          number: 0
+        victim:
+          name: Victim
+          number: 7
+        status: activated
 
     # Models
     Challenge:
