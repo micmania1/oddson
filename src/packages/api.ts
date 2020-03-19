@@ -159,12 +159,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Victim activates the challenge by entering their odds
+         * @param {string} id challenge id
          * @param {ActivateChallengeRequest} [activateChallengeRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activateChallenge(activateChallengeRequest?: ActivateChallengeRequest, options: any = {}): RequestArgs {
-            const localVarPath = `/activate`;
+        activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options: any = {}): RequestArgs {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling activateChallenge.');
+            }
+            const localVarPath = `/activate/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
@@ -305,12 +311,13 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Victim activates the challenge by entering their odds
+         * @param {string} id challenge id
          * @param {ActivateChallengeRequest} [activateChallengeRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activateChallenge(activateChallengeRequest?: ActivateChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Challenge> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).activateChallenge(activateChallengeRequest, options);
+        activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Challenge> {
+            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).activateChallenge(id, activateChallengeRequest, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -370,12 +377,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Victim activates the challenge by entering their odds
+         * @param {string} id challenge id
          * @param {ActivateChallengeRequest} [activateChallengeRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activateChallenge(activateChallengeRequest?: ActivateChallengeRequest, options?: any): AxiosPromise<Challenge> {
-            return DefaultApiFp(configuration).activateChallenge(activateChallengeRequest, options)(axios, basePath);
+        activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any): AxiosPromise<Challenge> {
+            return DefaultApiFp(configuration).activateChallenge(id, activateChallengeRequest, options)(axios, basePath);
         },
         /**
          * 
@@ -420,13 +428,14 @@ export class DefaultApi extends BaseAPI {
     /**
      * 
      * @summary Victim activates the challenge by entering their odds
+     * @param {string} id challenge id
      * @param {ActivateChallengeRequest} [activateChallengeRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public activateChallenge(activateChallengeRequest?: ActivateChallengeRequest, options?: any) {
-        return DefaultApiFp(this.configuration).activateChallenge(activateChallengeRequest, options)(this.axios, this.basePath);
+    public activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any) {
+        return DefaultApiFp(this.configuration).activateChallenge(id, activateChallengeRequest, options)(this.axios, this.basePath);
     }
 
     /**
