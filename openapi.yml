@@ -25,7 +25,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateChallengeRequest'
-  /activate:
+  /activate/{id}:
     post:
       summary: Victim activates the challenge by entering their odds
       operationId: activateChallenge
@@ -39,6 +39,14 @@ paths:
                 $ref: '#/components/schemas/Challenge'
         '400':
           description: 'invalid input, object invalid'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: challenge id
       requestBody:
         content:
           application/json:
