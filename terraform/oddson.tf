@@ -35,3 +35,15 @@ POLICY
 output "website_url" {
   value = aws_s3_bucket.web.website_endpoint
 }
+
+resource "aws_apigatewayv2_api" "api" {
+    name = "oddson-api"
+    protocol_type = "HTTP"
+    description = "An API to change the lives of people for the better"
+}
+
+# resource "aws_lambda_function"
+
+output "api_url" {
+    value = aws_apigatewayv2_api.api.api_endpoint
+}
