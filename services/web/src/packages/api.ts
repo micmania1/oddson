@@ -95,6 +95,24 @@ export enum ChallengeStatusEnum {
 /**
  * 
  * @export
+ * @interface ChallengeResponse
+ */
+export interface ChallengeResponse extends Challenge {
+}
+
+
+/**
+ * 
+ * @export
+ * @interface CheckResponse
+ */
+export interface CheckResponse extends Challenge {
+}
+
+
+/**
+ * 
+ * @export
  * @interface CompleteChallengeRequest
  */
 export interface CompleteChallengeRequest {
@@ -316,7 +334,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Challenge> {
+        activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChallengeResponse> {
             const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).activateChallenge(id, activateChallengeRequest, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -330,7 +348,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        checkChallenge(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Challenge> {
+        checkChallenge(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CheckResponse> {
             const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).checkChallenge(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -382,7 +400,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any): AxiosPromise<Challenge> {
+        activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any): AxiosPromise<ChallengeResponse> {
             return DefaultApiFp(configuration).activateChallenge(id, activateChallengeRequest, options)(axios, basePath);
         },
         /**
@@ -392,7 +410,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        checkChallenge(id: string, options?: any): AxiosPromise<Challenge> {
+        checkChallenge(id: string, options?: any): AxiosPromise<CheckResponse> {
             return DefaultApiFp(configuration).checkChallenge(id, options)(axios, basePath);
         },
         /**
