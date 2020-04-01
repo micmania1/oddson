@@ -21,7 +21,9 @@ module.exports = {
   externals: nodeModules,
 
   // Application config
-  entry: process.env.NODE_ENV === 'development' ? './app.local.js' : './app.serverless.js',
+  entry: {
+    app: process.env.NODE_ENV === 'development' ? './src/app.local.js' : './src/app.serverless.js',
+  },
   output: {
     path: distFolder,
     filename: '[name].js',

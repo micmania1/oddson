@@ -21,3 +21,4 @@ yarn-error.log*
 .terraform
 *.tfstate
 *.tfstate.backup
+*.zip

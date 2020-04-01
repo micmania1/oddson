@@ -1,12 +1,11 @@
-import { eventContext as awsServerlessEventContext } from 'aws-serverless-express/src/middleware';
-import cors from 'cors';
-import express, { Router as expressRouter } from 'express';
-
+const express = require('express');
 const app = express();
-const router = expressRouter();
+const router = express.Router();
+const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
+const cors = require('cors');
 
 router.use(cors());
-router.use(awsServerlessEventContext());
+router.use(awsServerlessExpressMiddleware.eventContext())
 
 router.post('/new', (req, res) => {
   const json = JSON.parse('{"id":"fe5d746a-e582-4cec-b2c8-d0c44e9108d1","challenge":"Do the thing","odds":0,"challenger":{"name":"Scott","number":0},"victim":{"name":"Scott","number":0},"status":"new"}');
@@ -28,12 +27,10 @@ router.get('/check/:id', (req, res) => {
   res.json(json);
 });
 
-if (process.env.NODE_ENV === 'development') {
-  router.get('/', (req, res) => {
-    res.json(['The API is running.']);
-  });
-}
+router.get('/', (req, res) => {
+  res.json(['The API is not running.']);
+});
 
 app.use('/', router);
 
-export default app;
+module.exports = app;
