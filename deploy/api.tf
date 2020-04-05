@@ -32,12 +32,12 @@ POLICY
 
 resource "aws_lambda_function" "oddson_api" {
     function_name = "oddson_api"
-    filename = "../services/api/build.zip"
+    filename = "../services/api/build/app.zip"
     runtime = "nodejs12.x"
     role = aws_iam_role.api_function_role.arn
     handler = "app.handler"
     publish = true
-    source_code_hash = filebase64sha256("../services/api/build.zip")
+    source_code_hash = filebase64sha256("../services/api/build/app.zip")
 }
 
 resource "aws_lambda_permission" "oddson_api_lambda_permission" {
