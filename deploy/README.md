@@ -8,9 +8,9 @@ All infrastructure is built using [Terraform](https://www.terraform.io/).
 
 ## Configure AWS credentials
 
-If you want to deploy from your lcoal dev environment you will need to [configure you AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) for your own AWS account to be able to deploy any services.
+If you want to deploy from your local dev environment you will need to [configure your AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html) for your own AWS account to be able to deploy any services.
 
-These will be created in your own account and will be charged to your account, although charges for creating static website + API Gateway are usally non-existent or a few cents. 
+These will be created in your own account and will be charged to your account, although charges for creating static website + API Gateway are usually non-existent or a few cents.
 
 ## Deploying a test environment
 

@@ -4,6 +4,7 @@ import { TextField, Button } from '@material-ui/core';
 import { Redirect, useParams } from 'react-router-dom';
 import ApiFactory from '../Utils/api';
 import { Challenge as ChallengeInt } from '../packages';
+import Complete from './Arena/Complete';
 
 const { checkChallenge, activateChallenge } = ApiFactory();
 
@@ -49,6 +50,11 @@ const Challenge = (props: Props) => {
 
   if (challengeDetails.status === 'activated') {
     return <p>Waiting for {challenger.name} to enter their number...</p>;
+  }
+
+  if (challengeDetails.status === 'complete') {
+    const passProps = { arenaId, challenge: challengeDetails };
+    return <Complete {...passProps} />
   }
 
   const isInt = (input: string) => Number(input) % 1 === 0;
