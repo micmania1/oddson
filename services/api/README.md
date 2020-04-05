@@ -10,7 +10,7 @@ The express application connects to the [DynamoDB](https://aws.amazon.com/dynamo
 
 You can start the API locally using `yarn start`.
 
-You can run a locl DynaomDB instance using `yarn db:start`.
+You can run a local DynaomDB instance using `yarn db:start`.
 
 ## Deployments
 

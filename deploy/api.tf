@@ -35,7 +35,7 @@ resource "aws_lambda_function" "oddson_api" {
     filename = "../services/api/build.zip"
     runtime = "nodejs12.x"
     role = aws_iam_role.api_function_role.arn
-    handler = "lambda.handler"
+    handler = "app.handler"
     publish = true
     source_code_hash = filebase64sha256("../services/api/build.zip")
 }

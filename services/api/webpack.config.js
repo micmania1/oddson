@@ -1,28 +1,31 @@
 const path = require('path');
-const fs = require('fs');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 
 const distFolder = path.resolve(__dirname, 'build');
 
-var nodeModules = {};
-fs.readdirSync('node_modules')
-  .filter(function(x) {
-    return ['.bin'].indexOf(x) === -1;
-  })
-  .forEach(function(mod) {
-    nodeModules[mod] = 'commonjs ' + mod;
-  });
-
-module.exports = {
+const webpackConfig = {
   // Environment config
-  mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
+  mode: 'production',
   target: 'node',
-  externals: nodeModules,
+
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js' ],
+  },
 
   // Application config
   entry: {
-    app: process.env.NODE_ENV === 'development' ? './src/app.local.js' : './src/app.serverless.js',
+    app: './src/lambda.ts',
   },
   output: {
     path: distFolder,
@@ -30,7 +33,16 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new NodemonPlugin(),
+    new NodemonPlugin({
+      ext: 'ts,js',
+    }),
   ],
-  devtool: 'inline-source-map',
 };
+
+if (process.env.NODE_ENV === 'development') {
+  webpackConfig.mode = 'development';
+  webpackConfig.entry.app = './src/app.local.ts';
+  webpackConfig.devtool = 'inline-source-map';
+}
+
+module.exports = webpackConfig;

@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import awsServerlessExpressMiddleware from 'aws-serverless-express/middleware';
+import cors from 'cors';
+
 const app = express();
 const router = express.Router();
-const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
-const cors = require('cors');
 
 router.use(cors());
 router.use(awsServerlessExpressMiddleware.eventContext())
@@ -28,9 +29,9 @@ router.get('/check/:id', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  res.json(['The API is not running.']);
+  res.json(['The API is now running.']);
 });
 
 app.use('/', router);
 
-module.exports = app;
+export default app;
