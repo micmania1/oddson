@@ -7,6 +7,7 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  Typography,
 } from "@material-ui/core";
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
@@ -29,9 +30,9 @@ const NewChallenge = (props: Props) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <h2>Challenge initiated!</h2>
-        <p>Waiting for other person to enter odds...</p>
-        <p>Give this link to {challenge.victim.name}:</p>
+        <Typography component="h1" variant="h2">Challenge initiated!</Typography>
+        <Typography component="p">Waiting for other person to enter odds...</Typography>
+        <Typography component="p">Give this link to {challenge.victim.name}:</Typography>
 
         <FormControl variant="filled" fullWidth>
           <InputLabel htmlFor="challenger-link">Challenger's link</InputLabel>
