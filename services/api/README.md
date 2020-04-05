@@ -20,8 +20,8 @@ To create the production build run `yarn build`.
 
 This needs to be improved but storing the manual process here for the time being.
 
-* Create a zip file for the lambda function `cd ./build && zip app.zip app.js`
-* Go into the root deploy directory `../../../deploy`
+* Create a zip file for the lambda function `yarn build`
+* Go into the root deploy directory `../../deploy`
 * Run `terraform plan` to see the changes
 * Run `terraform apply` to deploy the changes
 * The API URL will be output to the console
