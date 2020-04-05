@@ -3,8 +3,8 @@ import { Challenge } from '../../packages';
 import { Grid, Typography } from '@material-ui/core';
 
 interface Props {
-  arenaId: string,
-  challenge: Challenge,
+  arenaId: string;
+  challenge: Challenge;
 }
 
 const Complete = (props: Props) => {

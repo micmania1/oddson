@@ -1,6 +1,6 @@
 import React from 'react';
 import { Challenge } from '../../packages';
-import Grid from "@material-ui/core/Grid";
+import Grid from '@material-ui/core/Grid';
 import {
   FilledInput,
   FormControl,
@@ -8,12 +8,12 @@ import {
   InputAdornment,
   InputLabel,
   Typography,
-} from "@material-ui/core";
+} from '@material-ui/core';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 interface Props {
-  arenaId: string,
-  challenge: Challenge,
+  arenaId: string;
+  challenge: Challenge;
 }
 
 const NewChallenge = (props: Props) => {
@@ -35,7 +35,7 @@ const NewChallenge = (props: Props) => {
         <Typography component="p">Give this link to {challenge.victim.name}:</Typography>
 
         <FormControl variant="filled" fullWidth>
-          <InputLabel htmlFor="challenger-link">Challenger's link</InputLabel>
+          <InputLabel htmlFor="challenger-link">Challenger&apos;s link</InputLabel>
           <FilledInput
             id="challenger-link"
             type="text"

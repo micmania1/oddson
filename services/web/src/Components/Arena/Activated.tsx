@@ -1,19 +1,19 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import ApiFactory from '../../Utils/api';
 import { Challenge } from '../../packages';
-import Grid from "@material-ui/core/Grid";
+import Grid from '@material-ui/core/Grid';
 import {
   Button,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 const { completeChallenge } = ApiFactory();
 
 interface Props {
-  arenaId: string,
-  challenge: Challenge,
-  setChallenge: (challengeInfo: Challenge | undefined) => void,
+  arenaId: string;
+  challenge: Challenge;
+  setChallenge: (challengeInfo: Challenge | undefined) => void;
 }
 
 const Arena = (props: Props) => {
@@ -44,6 +44,7 @@ const Arena = (props: Props) => {
     return true;
   };
 
+  // https://media.tenor.com/images/ec1a862e91ffeaaff2299e290b0007c8/tenor.png
   const cLockItInEddy = async (e: FormEvent) => {
     e.preventDefault();
     if (!validate()) {
@@ -60,7 +61,7 @@ const Arena = (props: Props) => {
       <Grid item xs={12}>
         <Typography component="h1" variant="h2">The final countdown</Typography>
         <Typography component="p">
-          {challenge.victim.name} has entered odds of <strong>{challenge.odds}</strong>. What's
+          {challenge.victim.name} has entered odds of <strong>{challenge.odds}</strong>. What&apos;s
           your number?
         </Typography>
       </Grid>

@@ -1,6 +1,6 @@
 # Web
 
-The web application is built using the `create-react-app` package with typescript. 
+The web application is built using the `create-react-app` package with typescript.
 
 ## Running the app locally
 
@@ -20,3 +20,7 @@ We're using [prism](https://github.com/stoplightio/prism) which consumes our [Op
 We're using [OpenApi Generator](https://openapi-generator.tech/) to generate the client library for executing API calls.
 
 Running `yarn api:generate` will regenerate the client library in typescript and will publish it to `packages/api`. This is currently stored in the git repo so it'll need to be generated and committed for the time being, but this could be generated as part of deployments in the future and not stored in git.
+
+## Linting
+
+`yarn lint` and `yarn lint:fix`.
