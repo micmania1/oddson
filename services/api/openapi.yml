@@ -4,6 +4,15 @@ info:
   version: "1.0.0"
   title: Odds on
 paths:
+  /:
+    get:
+      responses:
+        404:
+          description: 'Not Found'
+      x-amazon-apigateway-integration:
+        uri: ${oddson_api_function}
+        type: 'aws_proxy'
+        httpMethod: 'POST'
   /new:
     post:
       summary: Creates a new challenge
@@ -25,6 +34,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateChallengeRequest'
+      x-amazon-apigateway-integration:
+        uri: ${oddson_api_function}
+        type: 'aws_proxy'
+        httpMethod: 'POST'
+
   /activate/{id}:
     post:
       summary: Victim activates the challenge by entering their odds
@@ -52,6 +66,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ActivateChallengeRequest'
+      x-amazon-apigateway-integration:
+        uri: ${oddson_api_function}
+        type: 'aws_proxy'
+        httpMethod: 'POST'
+
   /complete:
     post:
       summary: Complete the challenge by guessing the victim's odds
@@ -69,6 +88,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CompleteChallengeRequest'
+      x-amazon-apigateway-integration:
+        uri: ${oddson_api_function}
+        type: 'aws_proxy'
+        httpMethod: 'POST'
 
   /check/{id}:
     get:
@@ -90,8 +113,18 @@ paths:
             type: string
             format: uuid
           description: challenge id
+      x-amazon-apigateway-integration:
+        uri: ${oddson_api_function}
+        type: 'aws_proxy'
+        httpMethod: 'POST'
 
 components:
+  x-amazon-apigateway-integrations:
+    oddson_express:
+      uri: ${oddson_api_function}
+      type: 'aws_proxy'
+      httpMethod: 'POST'
+
   schemas:
     # Response Models
     CheckResponse:

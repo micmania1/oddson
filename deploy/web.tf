@@ -1,9 +1,5 @@
-provider "aws" {
-  profile = "default"
-  region  = "us-east-1"
-}
-
 resource "aws_s3_bucket" "web" {
+  bucket = "oddson"
   website {
     index_document = "index.html"
     error_document = "index.html"
@@ -33,5 +29,5 @@ POLICY
 }
 
 output "website_url" {
-  value = aws_s3_bucket.web.website_endpoint
+  value = "https://${aws_s3_bucket.web.website_endpoint}"
 }
