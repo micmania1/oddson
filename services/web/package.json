@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^1.0.10-4.2.3",
+    "@stoplight/prism-cli": "^3.3.3",
     "prism": "^4.1.2"
   }
 }
