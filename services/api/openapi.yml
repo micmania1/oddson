@@ -71,7 +71,7 @@ paths:
         type: 'aws_proxy'
         httpMethod: 'POST'
 
-  /complete:
+  /complete/{id}:
     post:
       summary: Complete the challenge by guessing the victim's odds
       operationId: completeChallenge
@@ -82,7 +82,15 @@ paths:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/CompleteChallengeResponse'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: challenge id
       requestBody:
         content:
           application/json:
@@ -133,14 +141,42 @@ components:
       example:
         id: fe5d746a-e582-4cec-b2c8-d0c44e9108d1
         challenge: Do the thing
-        odds: 0
+        odds: 2
+        challenger:
+          name: Challenger
+          number: 4
+        victim:
+          name: Victim
+          number: 2
+        status: activated
+    ChallengeResponse:
+      allOf:
+        - $ref: '#/components/schemas/Challenge'
+      example:
+        id: fe5d746a-e582-4cec-b2c8-d0c44e9108d1
+        challenge: Do the thing
+        odds: 20
         challenger:
           name: Challenger
           number: 0
         victim:
           name: Victim
-          number: 2
-        status: new
+          number: 7
+        status: activated
+    CompleteChallengeResponse:
+      allOf:
+        - $ref: '#/components/schemas/Challenge'
+      example:
+        id: fe5d746a-e582-4cec-b2c8-d0c44e9108d1
+        challenge: Do the thing
+        odds: 20
+        challenger:
+          name: Challenger
+          number: 7
+        victim:
+          name: Victim
+          number: 7
+        status: complete
 
 
     # Request Models
@@ -182,20 +218,6 @@ components:
       properties:
         number:
           type: number
-    ChallengeResponse:
-      allOf:
-        - $ref: '#/components/schemas/Challenge'
-      example:
-        id: fe5d746a-e582-4cec-b2c8-d0c44e9108d1
-        challenge: Do the thing
-        odds: 20
-        challenger:
-          name: Challenger
-          number: 0
-        victim:
-          name: Victim
-          number: 7
-        status: activated
 
     # Models
     Challenge:

@@ -4,13 +4,12 @@ import { TextField, Button } from '@material-ui/core';
 import { Redirect, useParams } from 'react-router-dom';
 import ApiFactory from '../Utils/api';
 import { Challenge as ChallengeInt } from '../packages';
+import Complete from './Arena/Complete';
+import { STATUS_ACTIVATED, STATUS_COMPLETE } from '../state/challenge';
 
 const { checkChallenge, activateChallenge } = ApiFactory();
 
-interface Props {
-}
-
-const Challenge = (props: Props) => {
+const Challenge = () => {
   const [loading, setLoading] = useState(true);
   const [challengeDetails, setChallengeDetails] = useState<ChallengeInt | undefined>();
   const [odds, updateOdds] = useState('');
@@ -47,8 +46,13 @@ const Challenge = (props: Props) => {
 
   const {challenger, victim, challenge} = challengeDetails;
 
-  if (challengeDetails.status === 'activated') {
+  if (challengeDetails.status === STATUS_ACTIVATED) {
     return <p>Waiting for {challenger.name} to enter their number...</p>;
+  }
+
+  if (challengeDetails.status === STATUS_COMPLETE) {
+    const passProps = { arenaId, challenge: challengeDetails };
+    return <Complete {...passProps} />
   }
 
   const isInt = (input: string) => Number(input) % 1 === 0;

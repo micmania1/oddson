@@ -126,6 +126,15 @@ export interface CompleteChallengeRequest {
 /**
  * 
  * @export
+ * @interface CompleteChallengeResponse
+ */
+export interface CompleteChallengeResponse extends Challenge {
+}
+
+
+/**
+ * 
+ * @export
  * @interface CreateChallengeRequest
  */
 export interface CreateChallengeRequest {
@@ -252,12 +261,18 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Complete the challenge by guessing the victim\'s odds
+         * @param {string} id challenge id
          * @param {CompleteChallengeRequest} [completeChallengeRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        completeChallenge(completeChallengeRequest?: CompleteChallengeRequest, options: any = {}): RequestArgs {
-            const localVarPath = `/complete`;
+        completeChallenge(id: string, completeChallengeRequest?: CompleteChallengeRequest, options: any = {}): RequestArgs {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling completeChallenge.');
+            }
+            const localVarPath = `/complete/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
@@ -317,6 +332,34 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rootGet(options: any = {}): RequestArgs {
+            const localVarPath = `/`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -358,12 +401,13 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Complete the challenge by guessing the victim\'s odds
+         * @param {string} id challenge id
          * @param {CompleteChallengeRequest} [completeChallengeRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        completeChallenge(completeChallengeRequest?: CompleteChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Challenge> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).completeChallenge(completeChallengeRequest, options);
+        completeChallenge(id: string, completeChallengeRequest?: CompleteChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompleteChallengeResponse> {
+            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).completeChallenge(id, completeChallengeRequest, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -378,6 +422,18 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         createChallenge(createChallengeRequest?: CreateChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Challenge> {
             const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).createChallenge(createChallengeRequest, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rootGet(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
+            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).rootGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -416,12 +472,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Complete the challenge by guessing the victim\'s odds
+         * @param {string} id challenge id
          * @param {CompleteChallengeRequest} [completeChallengeRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        completeChallenge(completeChallengeRequest?: CompleteChallengeRequest, options?: any): AxiosPromise<Challenge> {
-            return DefaultApiFp(configuration).completeChallenge(completeChallengeRequest, options)(axios, basePath);
+        completeChallenge(id: string, completeChallengeRequest?: CompleteChallengeRequest, options?: any): AxiosPromise<CompleteChallengeResponse> {
+            return DefaultApiFp(configuration).completeChallenge(id, completeChallengeRequest, options)(axios, basePath);
         },
         /**
          * 
@@ -432,6 +489,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         createChallenge(createChallengeRequest?: CreateChallengeRequest, options?: any): AxiosPromise<Challenge> {
             return DefaultApiFp(configuration).createChallenge(createChallengeRequest, options)(axios, basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rootGet(options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).rootGet(options)(axios, basePath);
         },
     };
 };
@@ -471,13 +536,14 @@ export class DefaultApi extends BaseAPI {
     /**
      * 
      * @summary Complete the challenge by guessing the victim\'s odds
+     * @param {string} id challenge id
      * @param {CompleteChallengeRequest} [completeChallengeRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public completeChallenge(completeChallengeRequest?: CompleteChallengeRequest, options?: any) {
-        return DefaultApiFp(this.configuration).completeChallenge(completeChallengeRequest, options)(this.axios, this.basePath);
+    public completeChallenge(id: string, completeChallengeRequest?: CompleteChallengeRequest, options?: any) {
+        return DefaultApiFp(this.configuration).completeChallenge(id, completeChallengeRequest, options)(this.axios, this.basePath);
     }
 
     /**
@@ -490,6 +556,16 @@ export class DefaultApi extends BaseAPI {
      */
     public createChallenge(createChallengeRequest?: CreateChallengeRequest, options?: any) {
         return DefaultApiFp(this.configuration).createChallenge(createChallengeRequest, options)(this.axios, this.basePath);
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public rootGet(options?: any) {
+        return DefaultApiFp(this.configuration).rootGet(options)(this.axios, this.basePath);
     }
 
 }

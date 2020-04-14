@@ -3,55 +3,63 @@ import { Redirect } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import ApiFactory from '../Utils/api';
 import { Challenge } from '../packages';
+import Loading from './Loading';
+import NewChallenge from './Arena/NewChallenge';
+import Activated from './Arena/Activated';
+import Complete from './Arena/Complete';
+import { STATUS_NEW, STATUS_ACTIVATED, STATUS_COMPLETE }from '../state/challenge';
 
 const { checkChallenge } = ApiFactory();
 
-interface Props {
-}
+const Arena = () => {
+  const [loading, setLoading] = useState(true);
+  const [challenge, setChallenge] = useState<Challenge | undefined>();
+  const {arenaId} = useParams();
 
-const Arena = (props: Props) => {
-    const [loading, setLoading] = useState(true);
-    const [challenge, setChallenge] = useState<Challenge|undefined>();
-    const { arenaId } = useParams();
+  useEffect(() => {
+    const load = async () => {
+      if (arenaId === undefined) {
+        return;
+      }
 
-    useEffect(() => {
-        const load = async () => {
-            if (arenaId === undefined) {
-                return;
-            }
+      const {data: challengeInfo} = await checkChallenge(arenaId);
+      setChallenge(challengeInfo);
+      setLoading(false);
+    };
 
-            const { data: challengeInfo } = await checkChallenge(arenaId);
-            setChallenge(challengeInfo);
-            setLoading(false);
-        }
+    load();
+  }, [arenaId]);
 
-        load();
-    }, [arenaId]);
+  if (arenaId === undefined) {
+    return <Redirect to="/"/>
+  }
 
-    if (arenaId === undefined) {
-        return <Redirect to="/" />
-    }
+  if (loading) {
+    return <Loading />;
+  }
 
-    if (loading) {
-        return <p>Loading...</p>;
-    }
+  if (challenge === undefined) {
+    return <Redirect to="/"/>
+  }
 
-    if (challenge === undefined) {
-        return <Redirect to="/" />
-    }
+  if (challenge.status === STATUS_NEW) {
+    const passProps = { arenaId, challenge };
+    return <NewChallenge {...passProps} />;
+  }
 
-    if (challenge.status === 'new') {
-        return (
-            <div>
-                <p>Waiting for other person to enter odds...</p>
-                <p>Give this link to {challenge.victim.name}: {`${window.location.origin}/#/challenge/${arenaId}`}</p>
-            </div>
-        );
-    }
+  if (challenge.status === STATUS_ACTIVATED) {
+    const passProps = { arenaId, challenge, setChallenge };
+    return <Activated {...passProps} />
+  }
 
-    return (
-        <div>{arenaId}</div>
-    );
+  if (challenge.status === STATUS_COMPLETE) {
+    const passProps = { arenaId, challenge };
+    return <Complete {...passProps} />
+  }
+
+  return (
+    <div>{arenaId}</div>
+  );
 };
 
 export default Arena;

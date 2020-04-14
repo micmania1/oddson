@@ -29,7 +29,9 @@
     "api:validate": "openapi-generator validate -i ../../services/api/openapi.yml",
     "api:generate": "openapi-generator generate -g typescript-axios -o ./src/packages -i ../../services/api/openapi.yml",
     "api:mock:dynamic": "prism mock -d ../../services/api/openapi.yml",
-    "api:mock": "prism mock ../../services/api/openapi.yml"
+    "api:mock": "prism mock ../../services/api/openapi.yml",
+    "lint": "eslint src --ext js,ts,tsx",
+    "lint:fix": "eslint src --fix --ext js,ts,tsx"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,6 +51,10 @@
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^1.0.10-4.2.3",
     "@stoplight/prism-cli": "^3.3.3",
+    "@typescript-eslint/eslint-plugin": "^2.26.0",
+    "@typescript-eslint/parser": "^2.26.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.19.0",
     "prism": "^4.1.2"
   }
 }
