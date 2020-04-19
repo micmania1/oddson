@@ -11,6 +11,10 @@ resource "aws_s3_bucket_policy" "website_bucket_policy" {
   policy = templatefile("./assets/policies/web.json", { s3_bucket: aws_s3_bucket.web.bucket })
 }
 
+output "website_bucket_name" {
+    value = aws_s3_bucket.web.bucket
+}
+
 output "website_url" {
   value = "https://${aws_s3_bucket.web.website_endpoint}"
 }
