@@ -38,6 +38,25 @@ paths:
         uri: ${oddson_api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
+    options:
+      responses:
+        200:
+          description: 'Response to CORS'
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: {}
+      x-amazon-apigateway-integration:
+        uri: ${oddson_api_function}
+        type: 'aws_proxy'
+        httpMethod: 'POST'
 
   /activate/{id}:
     post:
@@ -66,6 +85,25 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ActivateChallengeRequest'
+      x-amazon-apigateway-integration:
+        uri: ${oddson_api_function}
+        type: 'aws_proxy'
+        httpMethod: 'POST'
+    options:
+      responses:
+        200:
+          description: 'Response to CORS'
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: {}
       x-amazon-apigateway-integration:
         uri: ${oddson_api_function}
         type: 'aws_proxy'
@@ -100,6 +138,25 @@ paths:
         uri: ${oddson_api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
+    options:
+      responses:
+        200:
+          description: 'Response to CORS'
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: {}
+      x-amazon-apigateway-integration:
+        uri: ${oddson_api_function}
+        type: 'aws_proxy'
+        httpMethod: 'POST'
 
   /check/{id}:
     get:
@@ -121,6 +178,25 @@ paths:
             type: string
             format: uuid
           description: challenge id
+      x-amazon-apigateway-integration:
+        uri: ${oddson_api_function}
+        type: 'aws_proxy'
+        httpMethod: 'POST'
+    options:
+      responses:
+        200:
+          description: 'Response to CORS'
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: string
+            Access-Control-Allow-Methods:
+              schema:
+                type: string
+            Access-Control-Allow-Headers:
+              schema:
+                type: string
+          content: {}
       x-amazon-apigateway-integration:
         uri: ${oddson_api_function}
         type: 'aws_proxy'
