@@ -30,6 +30,18 @@ resource "aws_iam_role" "api_function_role" {
 POLICY
 }
 
+resource "aws_iam_role_policy" "oddson_db_read" {
+    name = "oddson_db_read_policy"
+    role = aws_iam_role.api_function_role.id
+    policy = templatefile("./assets/policies/db_read.json", { db_resource: aws_dynamodb_table.oddson_challenges.arn })
+}
+
+resource "aws_iam_role_policy" "oddson_db_write" {
+    name = "oddson_db_write_policy"
+    role = aws_iam_role.api_function_role.id
+    policy = templatefile("./assets/policies/db_write.json", { db_resource: aws_dynamodb_table.oddson_challenges.arn })
+}
+
 resource "aws_lambda_function" "oddson_api" {
     function_name = "oddson_api"
     filename = "../services/api/build/app.zip"

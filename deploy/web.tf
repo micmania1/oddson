@@ -8,24 +8,7 @@ resource "aws_s3_bucket" "web" {
 
 resource "aws_s3_bucket_policy" "website_bucket_policy" {
   bucket = aws_s3_bucket.web.bucket
-
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Id": "WebsiteBucketPolicy",
-  "Statement": [
-    {
-      "Sid": "PublicReadGetObject",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "*"
-      },
-      "Action": ["s3:GetObject"],
-      "Resource": ["arn:aws:s3:::${aws_s3_bucket.web.bucket}/*"]
-    }
-  ]
-}
-POLICY
+  policy = templatefile("./assets/policies/web.json", { s3_bucket: aws_s3_bucket.web.bucket })
 }
 
 output "website_url" {
