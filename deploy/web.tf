@@ -59,7 +59,7 @@ resource "aws_s3_bucket_policy" "website_bucket_policy" {
   bucket = aws_s3_bucket.web.bucket
   policy = templatefile("./assets/policies/web.json", {
       s3_bucket: aws_s3_bucket.web.bucket,
-      cloudfront_oai: aws_cloudfront_origin_access_identity.web.s3_canonical_user_id
+      cloudfront_oai_arn: aws_cloudfront_origin_access_identity.web.iam_arn
   })
 }
 

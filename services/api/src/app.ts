@@ -1,6 +1,7 @@
 import express from 'express';
 import awsServerlessExpressMiddleware from 'aws-serverless-express/middleware';
 import cors from 'cors';
+import DB from './db';
 
 const app = express();
 const router = express.Router();
@@ -35,8 +36,9 @@ router.get('/check/:id', cors(corsOptions), (req, res) => {
   res.json(json);
 });
 
-router.get('/', (req, res) => {
-  res.json(['The API is now running.']);
+router.get('/', async (req, res) => {
+  const challenges = await DB.getAllChallenges();
+  res.json(challenges);
 });
 
 app.use('/', router);

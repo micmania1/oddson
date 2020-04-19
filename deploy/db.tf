@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "oddson_challenges" {
-    name = "oddonon_challenges"
+    name = "oddson_challenges"
     billing_mode = "PROVISIONED"
     read_capacity = 5
     write_capacity = 5
