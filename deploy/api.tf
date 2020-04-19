@@ -12,22 +12,7 @@ resource "aws_api_gateway_deployment" "api" {
 
 resource "aws_iam_role" "api_function_role" {
     name = "oddson_api_function_role"
-
-    assume_role_policy = <<POLICY
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": "sts:AssumeRole",
-            "Principal": {
-                "Service": "lambda.amazonaws.com"
-            },
-            "Effect": "Allow",
-            "Sid": ""
-        }
-    ]
-}
-POLICY
+    assume_role_policy = templatefile("./assets/policies/api.json", {})
 }
 
 resource "aws_iam_role_policy" "oddson_db_read" {
@@ -40,6 +25,12 @@ resource "aws_iam_role_policy" "oddson_db_write" {
     name = "oddson_db_write_policy"
     role = aws_iam_role.api_function_role.id
     policy = templatefile("./assets/policies/db_write.json", { db_resource: aws_dynamodb_table.oddson_challenges.arn })
+}
+
+resource "aws_iam_role_policy" "oddson_api_logs" {
+    name = "oddson_api_logs_policy"
+    role = aws_iam_role.api_function_role.id
+    policy = templatefile("./assets/policies/api_logs.json", { cloudwatch_resource: aws_cloudwatch_log_group.logs.arn })
 }
 
 resource "aws_lambda_function" "oddson_api" {

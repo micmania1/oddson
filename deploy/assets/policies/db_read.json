@@ -5,7 +5,8 @@
             "Sid": "",
             "Effect": "Allow",
             "Action": [
-                "dynamodb:GetItem"
+                "dynamodb:GetItem",
+                "dynamodb:Scan"
             ],
             "Resource": "${db_resource}"
         }
