@@ -1,7 +1,7 @@
 #!/bin/bash
-
-# Ensure we exit as soon as there's an error
 set -e
+
+## Deploy the web service code
 
 # Prepare terrform outputs for use
 echo "+ Obtaining api_url from terraform outputs..."

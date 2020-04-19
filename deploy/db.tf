@@ -9,10 +9,4 @@ resource "aws_dynamodb_table" "oddson_challenges" {
         name = "uuid"
         type = "S"
     }
-
-    timeouts {
-        create = 20
-        update = 20
-        delete = 20
-    }
 }
