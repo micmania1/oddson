@@ -10,7 +10,7 @@ paths:
         404:
           description: 'Not Found'
       x-amazon-apigateway-integration:
-        uri: ${oddson_api_function}
+        uri: ${api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
   /new:
@@ -35,7 +35,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CreateChallengeRequest'
       x-amazon-apigateway-integration:
-        uri: ${oddson_api_function}
+        uri: ${api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
     options:
@@ -54,7 +54,7 @@ paths:
                 type: string
           content: {}
       x-amazon-apigateway-integration:
-        uri: ${oddson_api_function}
+        uri: ${api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
 
@@ -86,7 +86,7 @@ paths:
             schema:
               $ref: '#/components/schemas/ActivateChallengeRequest'
       x-amazon-apigateway-integration:
-        uri: ${oddson_api_function}
+        uri: ${api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
     options:
@@ -105,7 +105,7 @@ paths:
                 type: string
           content: {}
       x-amazon-apigateway-integration:
-        uri: ${oddson_api_function}
+        uri: ${api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
 
@@ -135,7 +135,7 @@ paths:
             schema:
               $ref: '#/components/schemas/CompleteChallengeRequest'
       x-amazon-apigateway-integration:
-        uri: ${oddson_api_function}
+        uri: ${api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
     options:
@@ -154,7 +154,7 @@ paths:
                 type: string
           content: {}
       x-amazon-apigateway-integration:
-        uri: ${oddson_api_function}
+        uri: ${api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
 
@@ -179,7 +179,7 @@ paths:
             format: uuid
           description: challenge id
       x-amazon-apigateway-integration:
-        uri: ${oddson_api_function}
+        uri: ${api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
     options:
@@ -198,14 +198,14 @@ paths:
                 type: string
           content: {}
       x-amazon-apigateway-integration:
-        uri: ${oddson_api_function}
+        uri: ${api_function}
         type: 'aws_proxy'
         httpMethod: 'POST'
 
 components:
   x-amazon-apigateway-integrations:
     oddson_express:
-      uri: ${oddson_api_function}
+      uri: ${api_function}
       type: 'aws_proxy'
       httpMethod: 'POST'
 

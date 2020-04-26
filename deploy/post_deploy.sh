@@ -19,4 +19,9 @@ yarn build
 # Deploy to our S3 bucket
 echo "+ Deploying to S3..."
 aws s3 sync ./build "s3://${S3_BUCKET}" --delete
+
+# Display terraform output (URLs)
+cd ../../deploy
+terraform output
+
 echo "+ Deployment complete..."$'\360\237\215\273'

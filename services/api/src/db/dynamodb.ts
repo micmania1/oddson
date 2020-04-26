@@ -14,8 +14,8 @@ const db = () => {
   }
 
   let config = {};
-  if (process.env.DYNAMODB_ENDPOINT !== undefined) {
-    config = { ...config, endpoint: new AWS.Endpoint(process.env.DYNAMODB_ENDPOINT) };
+  if (process.env.AWS_DYNAMODB_ENDPOINT !== undefined) {
+    config = { ...config, endpoint: new AWS.Endpoint(process.env.AWS_DYNAMODB_ENDPOINT) };
   }
 
   dbConfig = new AWS.DynamoDB(config);
@@ -94,4 +94,4 @@ const getAllChallenges = async () => {
 export default {
   setupDatabase,
   getAllChallenges,
-};
+}
