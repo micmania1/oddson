@@ -16,7 +16,8 @@ router.use(awsServerlessExpressMiddleware.eventContext())
 
 router.options('/new', cors(corsOptions));
 router.post('/new', cors(corsOptions), async (req, res) => {
-  const dbResponse = await DB.createNewChallenge(req.body)
+  const { challenger, challenge, victim } = req.body;
+  const dbResponse = await DB.createNewChallenge(challenger, challenge, victim)
   res.json(dbResponse);
 });
 

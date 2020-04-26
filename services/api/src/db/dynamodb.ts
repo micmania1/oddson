@@ -119,16 +119,16 @@ const getAllChallenges = async () => {
  *
  * @param body
  */
-const createNewChallenge = async (body: { challenger: string, challenge: string, victim: string }) => {
+const createNewChallenge = async (challenger: string, challenge: string, victim: string) => {
   const item = {
-    challenge: body.challenge,
+    challenge: challenge,
     odds: null,
     challenger: {
-      name: body.challenger,
+      name: challenger,
       number: null,
     },
     victim: {
-      name: body.victim,
+      name: victim,
       number: null
     },
     uuid: uuidv4(),
