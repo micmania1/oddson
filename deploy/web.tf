@@ -1,14 +1,15 @@
 resource "aws_s3_bucket" "web" {
-  bucket = "oddson"
+  bucket = "${var.application_id}-${var.environment_type}"
   acl = "private"
+  force_destroy = true
 }
 
 locals {
-  s3_origin_id = "oddson_web_origin_id"
+  s3_origin_id = "${var.application_id}_${var.environment_type}_web_origin_id"
 }
 
 resource "aws_cloudfront_origin_access_identity" "web" {
-    comment = "Oddson web origin access identity"
+    comment = "${var.application_title} ${var.environment_type} web origin access identity"
 }
 
 resource "aws_cloudfront_distribution" "web" {

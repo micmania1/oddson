@@ -1,7 +1,7 @@
 resource "aws_api_gateway_rest_api" "api" {
-  name        = "Oddson HTTP API"
-  description = "Oddson HTPT API"
-  body = templatefile("../services/api/openapi.yml", { oddson_api_function: aws_lambda_function.oddson_api.invoke_arn })
+  name        = "${var.application_id} HTTP API"
+  description = "${var.application_title} HTPT API"
+  body = templatefile("../services/api/openapi.yml", { api_function: aws_lambda_function.api_function.invoke_arn })
 }
 
 resource "aws_api_gateway_deployment" "api" {
@@ -11,30 +11,24 @@ resource "aws_api_gateway_deployment" "api" {
 }
 
 resource "aws_iam_role" "api_function_role" {
-    name = "oddson_api_function_role"
-    assume_role_policy = templatefile("./assets/policies/api.json", {})
+    name = "${var.application_id}_api_function_role"
+    assume_role_policy = file("./assets/policies/api.json")
 }
 
-resource "aws_iam_role_policy" "oddson_db_read" {
-    name = "oddson_db_read_policy"
+resource "aws_iam_role_policy" "db_role" {
+    name = "${var.application_id}_db_read_policy"
     role = aws_iam_role.api_function_role.id
-    policy = templatefile("./assets/policies/db_read.json", { db_resource: aws_dynamodb_table.oddson_challenges.arn })
+    policy = templatefile("./assets/policies/db_role.json", { db_resource: aws_dynamodb_table.table.arn })
 }
 
-resource "aws_iam_role_policy" "oddson_db_write" {
-    name = "oddson_db_write_policy"
-    role = aws_iam_role.api_function_role.id
-    policy = templatefile("./assets/policies/db_write.json", { db_resource: aws_dynamodb_table.oddson_challenges.arn })
-}
-
-resource "aws_iam_role_policy" "oddson_api_logs" {
-    name = "oddson_api_logs_policy"
+resource "aws_iam_role_policy" "api_logs" {
+    name = "${var.application_id}_api_logs_policy"
     role = aws_iam_role.api_function_role.id
     policy = templatefile("./assets/policies/api_logs.json", { cloudwatch_resource: aws_cloudwatch_log_group.logs.arn })
 }
 
-resource "aws_lambda_function" "oddson_api" {
-    function_name = "oddson_api"
+resource "aws_lambda_function" "api_function" {
+    function_name = "${var.application_id}_api"
     filename = "../services/api/build/app.zip"
     runtime = "nodejs12.x"
     role = aws_iam_role.api_function_role.arn
@@ -43,10 +37,10 @@ resource "aws_lambda_function" "oddson_api" {
     source_code_hash = filebase64sha256("../services/api/build/app.zip")
 }
 
-resource "aws_lambda_permission" "oddson_api_lambda_permission" {
-    statement_id = "allow_oddons_api_gateway_lambda"
+resource "aws_lambda_permission" "api_function_permission" {
+    statement_id = "${var.application_id}_api_gateway_lambda"
     action = "lambda:InvokeFunction"
-    function_name = "oddson_api"
+    function_name = "${var.application_id}_api"
     principal = "apigateway.amazonaws.com"
     source_arn = "${aws_api_gateway_rest_api.api.execution_arn}/*/*/*"
 }
@@ -56,7 +50,7 @@ output "api_arn" {
 }
 
 output "lambda_arn" {
-    value = aws_lambda_function.oddson_api.arn
+    value = aws_lambda_function.api_function.arn
 }
 
 output "api_url" {

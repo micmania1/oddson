@@ -1,5 +1,5 @@
-resource "aws_dynamodb_table" "oddson_challenges" {
-    name = "oddson_challenges"
+resource "aws_dynamodb_table" "table" {
+    name = "${var.application_id}_${var.environment_type}"
     billing_mode = "PROVISIONED"
     read_capacity = 5
     write_capacity = 5
