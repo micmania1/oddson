@@ -132,6 +132,7 @@ const createNewChallenge = async (challenger: string, challenge: string, victim:
       number: null
     },
     uuid: uuidv4(),
+    status: "new"
   }
 
   const params: AWS.DynamoDB.DocumentClient.PutItemInput = {
@@ -178,8 +179,81 @@ const getChallenge = async (uuid: string) => {
         console.error(err);
         resolve([]);
       } else {
-        console.log(data)
         resolve(data.Item);
+      }
+    })
+  });
+};
+
+/**
+ * Sets the odds and the chosen number of the victim
+ *
+ * @param body
+ */
+const activateChallenge = async (uuid: string, odds: number, victim_number: number) => {
+  const params: AWS.DynamoDB.DocumentClient.UpdateItemInput = {
+    Key: {
+      uuid: uuid,
+    },
+    UpdateExpression: "set #victim.#number = :victim_number, #odds = :odds, #status = :status",
+    ExpressionAttributeNames: {
+      "#victim": "victim",
+      "#number": "number",
+      "#odds": "odds",
+      "#status": "status"
+    },
+    ExpressionAttributeValues: {
+      ":victim_number": victim_number,
+      ":odds": odds,
+      ":status": "activated"
+    },
+    ReturnValues: "ALL_NEW",
+    TableName: TABLE_NAME,
+  };
+
+  return new Promise((resolve) => {
+    getDBClient().update(params, (err, data) => {
+      if (err) {
+        console.error(err);
+        resolve([]);
+      } else {
+        resolve(data.Attributes)
+      }
+    })
+  });
+};
+
+/**
+ * Sets the the chosen number of the challenger completing the challenge flow
+ *
+ * @param body
+ */
+const completeChallenge = async (uuid: string, challenger_number: number) => {
+  const params: AWS.DynamoDB.DocumentClient.UpdateItemInput = {
+    Key: {
+      uuid: uuid,
+    },
+    UpdateExpression: "set #challenger.#number = :challenger_number, #status = :status",
+    ExpressionAttributeNames: {
+      "#challenger": "challenger",
+      "#number": "number",
+      "#status": "status"
+    },
+    ExpressionAttributeValues: {
+      ":challenger_number": challenger_number,
+      ":status": "complete"
+    },
+    ReturnValues: "ALL_NEW",
+    TableName: TABLE_NAME,
+  };
+
+  return new Promise((resolve) => {
+    getDBClient().update(params, (err, data) => {
+      if (err) {
+        console.error(err);
+        resolve([]);
+      } else {
+        resolve(data.Attributes)
       }
     })
   });
@@ -189,5 +263,7 @@ export default {
   setupDatabase,
   getAllChallenges,
   createNewChallenge,
-  getChallenge
+  getChallenge,
+  activateChallenge,
+  completeChallenge
 };
