@@ -33,9 +33,9 @@ router.post('/complete/:id', cors(corsOptions), (req, res) => {
 });
 
 router.options('/check/:id', cors(corsOptions));
-router.get('/check/:id', cors(corsOptions), (req, res) => {
-  const json = JSON.parse('{"id":"fe5d746a-e582-4cec-b2c8-d0c44e9108d1","challenge":"Do the thing","odds":0,"challenger":{"name":"Challenger","number":0},"victim":{"name":"Victim","number":2},"status":"new"}');
-  res.json(json);
+router.get('/check/:id', cors(corsOptions), async (req, res) => {
+  const dbResponse = await DB.getChallenge(req.params.id)
+  res.json(dbResponse);
 });
 
 router.get('/', async (req, res) => {

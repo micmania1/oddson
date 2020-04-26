@@ -159,8 +159,35 @@ const createNewChallenge = async (body: { challenger: string, challenge: string,
   });
 };
 
+/**
+ * Retrieves a challenge based on a uuid
+ *
+ * @param body
+ */
+const getChallenge = async (uuid: string) => {
+  const params: AWS.DynamoDB.DocumentClient.GetItemInput = {
+    TableName: TABLE_NAME,
+    Key: {
+      uuid: uuid,
+    }
+  };
+
+  return new Promise((resolve) => {
+    getDBClient().get(params, (err, data) => {
+      if (err) {
+        console.error(err);
+        resolve([]);
+      } else {
+        console.log(data)
+        resolve(data.Item);
+      }
+    })
+  });
+};
+
 export default {
   setupDatabase,
   getAllChallenges,
-  createNewChallenge
+  createNewChallenge,
+  getChallenge
 };
