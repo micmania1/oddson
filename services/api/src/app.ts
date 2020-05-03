@@ -22,15 +22,16 @@ router.post('/new', cors(corsOptions), async (req, res) => {
 });
 
 router.options('/activate/:id', cors(corsOptions));
-router.post('/activate/:id', cors(corsOptions), (req, res) => {
-  const json = JSON.parse('{"id":"fe5d746a-e582-4cec-b2c8-d0c44e9108d1","challenge":"Do the thing","odds":20,"challenger":{"name":"Challenger","number":0},"victim":{"name":"Victim","number":7},"status":"activated"}');
-  res.json(json);
+router.post('/activate/:id', cors(corsOptions), async (req, res) => {
+  const { odds, number } = req.body;
+  const dbResponse = await DB.activateChallenge(req.params.id, odds, number)
+  res.json(dbResponse);
 });
 
 router.options('/complete/:id', cors(corsOptions));
-router.post('/complete/:id', cors(corsOptions), (req, res) => {
-  const json = JSON.parse('{"id":"fe5d746a-e582-4cec-b2c8-d0c44e9108d1","challenge":"Do the thing","odds":20,"challenger":{"name":"Challenger","number":0},"victim":{"name":"Victim","number":7},"status":"activated"}');
-  res.json(json);
+router.post('/complete/:id', cors(corsOptions), async (req, res) => {
+  const dbResponse = await DB.completeChallenge(req.params.id, req.body.number)
+  res.json(dbResponse);
 });
 
 router.options('/check/:id', cors(corsOptions));
