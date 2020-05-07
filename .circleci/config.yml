@@ -1,0 +1,89 @@
+version: 2.1
+
+jobs:
+  unit_test:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - run:
+          name: '[Web] Unit tests'
+          command: |
+            echo 'This is where our web unit tests would run'
+      - run:
+          name: '[API] Integration tests'
+          command: |
+            echo 'This is where our API integration tests would run'
+
+  test_deployment:
+    docker:
+      - image: 'circleci/node:12'
+    steps:
+      - deploy:
+          name: '[TEST] Deploy'
+          command: |
+            echo 'Switch to test terraform workspace'
+            echo 'Run deploy script'
+      - run:
+          name: '[TEST] End-to-end tests'
+          command: |
+            echo 'Run end-to-end tests against the test deployment'
+
+  prod_deployment:
+    docker:
+      - image: 'circleci/node:12'
+    steps:
+      - deploy:
+          name: '[PROD] Deploy'
+          command: |
+            echo 'Switch to prod terraform workspace'
+            echo 'Run deploy script'
+      - run:
+          name: '[PROD] End-to-end tests'
+          command: |
+            echo 'Run end-to-end tests against the production deployment'
+
+  notify:
+    docker:
+      - image: 'circleci/node:12'
+    steps:
+      - run:
+          name: 'Notify slack'
+          command: |
+            echo 'Send a slack notification with the result of te build'
+            echo 'If the build has failed, include instructions for how to deploy the old version'
+            echo 'Maybe we can link to circleci build?'
+
+workflows:
+  version: 2
+  cd_workflow:
+    jobs:
+      - unit_test
+
+      - test_deployment:
+          requires:
+            - unit_test
+          filters:
+            branches:
+              only:
+                - master
+
+      - prod_deployment:
+          requires:
+            - test_deployment
+          filters:
+            branches:
+              only:
+                - master
+
+      - notify:
+          requires:
+            - prod_deployment
+          filters:
+            branches:
+              only:
+                - master
+
+
+
+
