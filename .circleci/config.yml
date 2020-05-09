@@ -22,9 +22,9 @@ jobs:
       - deploy:
           name: '[TEST] Deploy'
           command: |
-            terraform init -backend-config="organisation=${TF_ORGANISATION}"
+            cd ./deploy
+            terraform init -backend-config="organization=${TF_ORGANISATION}"
             terraform workspace select test
-            cd deploy
             ./deploy.sh
       - deploy:
           name: '[TEST] End-to-end tests'
