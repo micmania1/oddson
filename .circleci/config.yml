@@ -1,9 +1,9 @@
-version: 2.1
+version: 2.0
 
 jobs:
   unit_test:
     docker:
-      - image: circleci/node:12
+      - image: micmania1/oddson:ci
     steps:
       - checkout
       - run:
@@ -17,8 +17,13 @@ jobs:
 
   test_deployment:
     docker:
-      - image: 'circleci/node:12'
+      - image: micmania1/oddson:ci
     steps:
+      - deploy:
+          name: 'TESTING'
+          command: |
+            whereis terraform
+            whereis aws
       - deploy:
           name: '[TEST] Deploy'
           command: |
@@ -31,7 +36,7 @@ jobs:
 
   prod_deployment:
     docker:
-      - image: 'circleci/node:12'
+      - image: micmania1/oddson:ci
     steps:
       - deploy:
           name: '[PROD] Deploy'
@@ -63,26 +68,26 @@ workflows:
       - test_deployment:
           requires:
             - unit_test
-          filters:
-            branches:
-              only:
-                - master
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
 
       - prod_deployment:
           requires:
             - test_deployment
-          filters:
-            branches:
-              only:
-                - master
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
 
       - notify:
           requires:
             - prod_deployment
-          filters:
-            branches:
-              only:
-                - master
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
 
 
 

@@ -37,6 +37,8 @@ You will be given a default workspace out-of-the-box but you can also create a n
 
 ### Deploying
 
+Since we've configured Terraform Cloud, the default action is to try and run `terraform apply` in the cloud environment. To configure this to run locally, which is required for us, login to Terraform cloud web interface and set your workspace execution mode to local. This can be done in Settings > General.
+
 When you have everything setup you should able to deploy your own environment by running `./deploy.sh` from the `deply` directory.
 
 This will run terraform as its primary command, but also some other actions to support it and complete the deployment. This is a high level view of what `./deploy.sh` will do:
