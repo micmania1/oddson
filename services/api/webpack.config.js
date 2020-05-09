@@ -39,6 +39,11 @@ const webpackConfig = {
     new NodemonPlugin({
       ext: 'ts,js',
     }),
+
+    // Create a zip for lambda
+    new ZipPlugin({
+      filename: 'app.zip',
+    }),
   ],
 };
 
@@ -49,17 +54,6 @@ if (process.env.NODE_ENV === 'development') {
   // app.local.ts returns our application without the aws-serverless-express
   // wrapper.
   webpackConfig.entry.app = './src/app.local.ts';
-}
-
-if (process.env.NODE_ENV !== 'development') {
-  /**
-   * Zip up the build files so that terraform has something to deploy to
-   * our lambda function.
-   */
-  const zipBuild = new ZipPlugin({
-    filename: 'app.zip',
-  });
-  webpackConfig.plugins.push(zipBuild);
 }
 
 module.exports = webpackConfig;
