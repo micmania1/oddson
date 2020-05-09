@@ -34,7 +34,7 @@ jobs:
           name: '[TEST] Deploy'
           command: |
             cd ./deploy
-            terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}"
+            terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -lock=true input=false
             terraform workspace select test
             ./deploy.sh
       - deploy:
