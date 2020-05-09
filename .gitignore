@@ -22,3 +22,5 @@ yarn-error.log*
 *.tfstate
 *.tfstate.backup
 *.zip
+*.tfvars
+*.tfvars.*

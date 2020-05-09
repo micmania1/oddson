@@ -1,6 +1,6 @@
-# Odds on?
+# Odds on
 
-A monorepo for the odds on web, api and whatever comes after it.
+A monorepo for the odds application.
 
 ## [Web](services/web)
 
@@ -12,6 +12,11 @@ A monorepo for the odds on web, api and whatever comes after it.
 `services/api` is the API written in typescript and defined by the API spec `services/api/openapi.yml`
 
 
-## [Deployments](deploy)
+## Database
 
-The infrastructure is built using terraform which can be found in the `deploy` directory. This is currently all built at the same time but may be split out to their individual services at some point.
+We're using DynamoDB as the database. For local development you should be able to run `yarn db:start` from within the [services/api](services/api) directory.
+
+
+## [Deployments & Environment Management](deploy)
+
+The infrastructure is built using terraform which can be found in the `deploy` directory.

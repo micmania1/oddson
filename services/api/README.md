@@ -11,21 +11,3 @@ The express application connects to the [DynamoDB](https://aws.amazon.com/dynamo
 You can start the API locally using `yarn start`.
 
 You can run a local DynamoDB instance using `yarn db:start`.
-
-## Deployments
-
-To create the production build run `yarn build`.
-
-### The rest is TBC
-
-This needs to be improved but storing the manual process here for the time being.
-
-* Create a zip file for the lambda function `yarn build`
-* Go into the root deploy directory `../../deploy`
-* Run `terraform plan` to see the changes
-* Run `terraform apply` to deploy the changes
-* The API URL will be output to the console
-
-In future we may be able to add the zip functionality to webpack and `yarn build`.
-
-We also need to figure out how to feed the API url into the static website build.
