@@ -19,6 +19,17 @@ jobs:
     docker:
       - image: micmania1/oddson:ci
     steps:
+      - checkout
+      - install_web:
+          name: '[TEST] Install'
+          command: |
+            cd services/web
+            yarn
+      - install_api:
+          name: '[TEST] Install'
+          command: |
+            cd services/api
+            yarn
       - deploy:
           name: '[TEST] Deploy'
           command: |
