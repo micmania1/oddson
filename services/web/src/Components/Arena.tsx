@@ -7,22 +7,22 @@ import Loading from './Loading';
 import NewChallenge from './Arena/NewChallenge';
 import Activated from './Arena/Activated';
 import Complete from './Arena/Complete';
-import { STATUS_NEW, STATUS_ACTIVATED, STATUS_COMPLETE }from '../state/challenge';
+import { STATUS_NEW, STATUS_ACTIVATED, STATUS_COMPLETE } from '../state/challenge';
 
 const { checkChallenge } = ApiFactory();
 
-const Arena = () => {
+const Arena: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [challenge, setChallenge] = useState<Challenge | undefined>();
-  const {arenaId} = useParams();
+  const { arenaId } = useParams();
 
   useEffect(() => {
-    const load = async () => {
+    const load = async (): Promise<void> => {
       if (arenaId === undefined) {
         return;
       }
 
-      const {data: challengeInfo} = await checkChallenge(arenaId);
+      const { data: challengeInfo } = await checkChallenge(arenaId);
       setChallenge(challengeInfo);
       setLoading(false);
     };
@@ -31,7 +31,7 @@ const Arena = () => {
   }, [arenaId]);
 
   if (arenaId === undefined) {
-    return <Redirect to="/"/>
+    return <Redirect to="/" />
   }
 
   if (loading) {
@@ -39,7 +39,7 @@ const Arena = () => {
   }
 
   if (challenge === undefined) {
-    return <Redirect to="/"/>
+    return <Redirect to="/" />
   }
 
   if (challenge.status === STATUS_NEW) {

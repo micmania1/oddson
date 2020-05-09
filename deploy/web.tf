@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "web" {
 }
 
 locals {
-  s3_origin_id = "${var.application_id}_${var.environment_type}_web_origin_id"
+  web_origin_id = "${var.application_id}_${var.environment_type}_web_origin_id"
 }
 
 resource "aws_cloudfront_origin_access_identity" "web" {
@@ -13,9 +13,13 @@ resource "aws_cloudfront_origin_access_identity" "web" {
 }
 
 resource "aws_cloudfront_distribution" "web" {
+  depends_on = [
+    aws_acm_certificate_validation.domain_cert_validation
+  ]
+
   origin {
     domain_name = aws_s3_bucket.web.bucket_regional_domain_name
-    origin_id   = local.s3_origin_id
+    origin_id   = local.web_origin_id
 
     s3_origin_config {
       origin_access_identity = "origin-access-identity/cloudfront/${aws_cloudfront_origin_access_identity.web.id}"
@@ -26,15 +30,10 @@ resource "aws_cloudfront_distribution" "web" {
   is_ipv6_enabled     = true
   default_root_object = "index.html"
 
-  aliases = [
-    var.domain,
-    "www.${var.domain}"
-  ]
-
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = local.s3_origin_id
+    target_origin_id = local.web_origin_id
 
     forwarded_values {
       query_string = false
@@ -50,9 +49,15 @@ resource "aws_cloudfront_distribution" "web" {
     max_ttl                = 86400
   }
 
+
+  aliases = local.include_domains ? var.web_domains : []
   viewer_certificate {
-    acm_certificate_arn = aws_acm_certificate.domain_cert.arn
-    ssl_support_method = "sni-only"
+    # When no domains are configured
+    cloudfront_default_certificate = ! local.include_domains
+
+    # When we need to configure domains
+    acm_certificate_arn = local.include_domains ? aws_acm_certificate.domain_cert[0].arn : null
+    ssl_support_method  = local.include_domains ? "sni-only" : null
   }
 
   restrictions {
@@ -71,30 +76,18 @@ resource "aws_s3_bucket_policy" "website_bucket_policy" {
 }
 
 # Domains
-resource "aws_route53_record" "web_domain" {
-    name = var.domain
-    type = "A"
-    zone_id = aws_route53_zone.domain.zone_id
+resource "aws_route53_record" "web_domains" {
+  count   = local.include_domains ? length(var.web_domains) : 0
+  name    = var.web_domains[count.index]
+  type    = "A"
+  zone_id = aws_route53_zone.domain[0].zone_id
 
-    alias {
-        name = aws_cloudfront_distribution.web.domain_name
-        zone_id = aws_cloudfront_distribution.web.hosted_zone_id
-        evaluate_target_health = true
-    }
+  alias {
+    name                   = aws_cloudfront_distribution.web.domain_name
+    zone_id                = aws_cloudfront_distribution.web.hosted_zone_id
+    evaluate_target_health = true
+  }
 }
-
-resource "aws_route53_record" "web_domain_www" {
-    name = "www.${var.domain}"
-    type = "A"
-    zone_id = aws_route53_zone.domain.zone_id
-
-    alias {
-        name = aws_cloudfront_distribution.web.domain_name
-        zone_id = aws_cloudfront_distribution.web.hosted_zone_id
-        evaluate_target_health = true
-    }
-}
-
 
 output "website_bucket_name" {
   value = aws_s3_bucket.web.bucket

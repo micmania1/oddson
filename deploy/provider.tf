@@ -12,3 +12,9 @@ terraform {
     }
   }
 }
+
+locals {
+  environment_type = var.environment_type
+  include_domains  = var.domain == "" ? false : true
+  all_domains      = setunion([var.domain], var.web_domains, var.api_domains)
+}

@@ -24,3 +24,6 @@ yarn-error.log*
 *.zip
 *.tfvars
 *.tfvars.*
+
+!/deploy/prod.tfvars
+!/deploy/test.tfvars

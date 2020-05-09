@@ -16,14 +16,14 @@ interface Props {
   setChallenge: (challengeInfo: Challenge | undefined) => void;
 }
 
-const Arena = (props: Props) => {
+const Arena: React.FC<Props> = (props: Props) => {
   const { arenaId, challenge, setChallenge } = props;
   const [number, updateNumber] = useState('');
   const [numberError, updateNumberError] = useState('');
 
-  const isInt = (input: string) => Number(input) % 1 === 0;
+  const isInt = (input: string): boolean => Number(input) % 1 === 0;
 
-  const validate = () => {
+  const validate = (): boolean => {
     if (Number(number) < 1) {
       updateNumberError('Your number must be greater than 0');
       return false;
@@ -45,7 +45,7 @@ const Arena = (props: Props) => {
   };
 
   // https://media.tenor.com/images/ec1a862e91ffeaaff2299e290b0007c8/tenor.png
-  const cLockItInEddy = async (e: FormEvent) => {
+  const cLockItInEddy = async (e: FormEvent): Promise<boolean | void> => {
     e.preventDefault();
     if (!validate()) {
       return false;
@@ -69,12 +69,12 @@ const Arena = (props: Props) => {
         <TextField
           id="number"
           label="Your number"
-          error={Boolean(numberError)}
+          error={numberError === '' ? false : true}
           helperText={numberError}
           fullWidth
           multiline
           value={number}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => updateNumber(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>): void => updateNumber(e.target.value)}
         />
       </Grid>
       <Grid item xs={12}>

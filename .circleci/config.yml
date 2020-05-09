@@ -1,54 +1,80 @@
-version: 2.1
+version: 2.0
 
 jobs:
   unit_test:
     docker:
-      - image: circleci/node:12
+      - image: micmania1/oddson:ci
     steps:
       - checkout
       - run:
-          name: '[Web] Unit tests'
+          name: "[Web] Unit tests"
           command: |
             echo 'This is where our web unit tests would run'
       - run:
-          name: '[API] Integration tests'
+          name: "[API] Integration tests"
           command: |
             echo 'This is where our API integration tests would run'
 
   test_deployment:
     docker:
-      - image: 'circleci/node:12'
+      - image: micmania1/oddson:ci
     steps:
-      - deploy:
-          name: '[TEST] Deploy'
-          command: |
-            echo 'Switch to test terraform workspace'
-            echo 'Run deploy script'
+      - checkout
       - run:
-          name: '[TEST] End-to-end tests'
+          name: "[TEST] Install web"
+          command: |
+            cd services/web
+            yarn
+      - run:
+          name: "[TEST] Install api"
+          command: |
+            cd services/api
+            yarn
+      - deploy:
+          name: "[TEST] Deploy"
+          command: |
+            cd ./deploy
+            TF_WORKSPACE="test" terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
+            terraform workspace select test
+            ./deploy.sh
+      - deploy:
+          name: "[TEST] End-to-end tests"
           command: |
             echo 'Run end-to-end tests against the test deployment'
 
   prod_deployment:
     docker:
-      - image: 'circleci/node:12'
+      - image: micmania1/oddson:ci
     steps:
-      - deploy:
-          name: '[PROD] Deploy'
-          command: |
-            echo 'Switch to prod terraform workspace'
-            echo 'Run deploy script'
+      - checkout
       - run:
-          name: '[PROD] End-to-end tests'
+          name: "[TEST] Install web"
+          command: |
+            cd services/web
+            yarn
+      - run:
+          name: "[TEST] Install api"
+          command: |
+            cd services/api
+            yarn
+      - deploy:
+          name: "[PROD] Deploy"
+          command: |
+            cd ./deploy
+            TF_WORKSPACE="prod" terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
+            terraform workspace select prod
+            ./deploy.sh
+      - deploy:
+          name: "[PROD] End-to-end tests"
           command: |
             echo 'Run end-to-end tests against the production deployment'
 
   notify:
     docker:
-      - image: 'circleci/node:12'
+      - image: micmania1/oddson:ci
     steps:
       - run:
-          name: 'Notify slack'
+          name: "Notify slack"
           command: |
             echo 'Send a slack notification with the result of te build'
             echo 'If the build has failed, include instructions for how to deploy the old version'
@@ -58,32 +84,32 @@ workflows:
   version: 2
   cd_workflow:
     jobs:
-      - unit_test
+      # We don't have any unit/integration tests
+      # - unit_test
 
-      - test_deployment:
-          requires:
-            - unit_test
-          filters:
-            branches:
-              only:
-                - master
+      # We don't have e2e tests
+      # - test_deployment:
+      #     requires:
+      #       - unit_test
+      #     context: "Oddson"
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
 
       - prod_deployment:
-          requires:
-            - test_deployment
+          # requires:
+          #   - test_deployment
+          context: "Oddson"
           filters:
             branches:
               only:
                 - master
-
-      - notify:
-          requires:
-            - prod_deployment
-          filters:
-            branches:
-              only:
-                - master
-
-
-
-
+      # Add slack notifications later
+      # - notify:
+      #     requires:
+      #       - prod_deployment
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master

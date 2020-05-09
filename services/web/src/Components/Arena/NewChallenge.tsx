@@ -16,11 +16,11 @@ interface Props {
   challenge: Challenge;
 }
 
-const NewChallenge = (props: Props) => {
+const NewChallenge: React.FC<Props> = (props: Props) => {
   const { arenaId, challenge } = props;
 
   const challengerLink = `${window.location.origin}/#/challenge/${arenaId}`;
-  const copyChallengerLink = () => {
+  const copyChallengerLink = (): void => {
     if (!window.navigator.clipboard) {
       return;
     }
