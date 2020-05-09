@@ -5,7 +5,7 @@ set -e
 ./pre_deploy.sh
 
 # Run terraform
-terraform apply
+terraform apply -auto-approve lock=true -input=false
 
 # Post-deploy hook
 ./post_deploy.sh
