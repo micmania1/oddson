@@ -5,7 +5,7 @@ jobs:
     docker:
       - image: micmania1/oddson:ci
     steps:
-      - checkout
+      # - checkout
       - run:
           name: '[Web] Unit tests'
           command: |
@@ -20,18 +20,20 @@ jobs:
       - image: micmania1/oddson:ci
     steps:
       - checkout
-      - run:
-          name: '[TEST] Install web'
-          command: |
-            cd services/web
-            yarn
-      - run:
-          name: '[TEST] Install api'
-          command: |
-            cd services/api
-            yarn
+      # - run:
+      #     name: '[TEST] Install web'
+      #     command: |
+      #       cd services/web
+      #       yarn
+      # - run:
+      #     name: '[TEST] Install api'
+      #     command: |
+      #       cd services/api
+      #       yarn
       - deploy:
           name: '[TEST] Deploy'
+          environment:
+            TF_WORKSPACE: "test"
           command: |
             cd ./deploy
             terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
@@ -48,6 +50,8 @@ jobs:
     steps:
       - deploy:
           name: '[PROD] Deploy'
+          environment:
+            TF_WORKSPACE: "prod"
           command: |
             echo 'Switch to prod terraform workspace'
             echo 'Run deploy script'
