@@ -20,16 +20,13 @@ jobs:
       - image: micmania1/oddson:ci
     steps:
       - deploy:
-          name: 'TESTING'
-          command: |
-            whereis terraform
-            whereis aws
-      - deploy:
           name: '[TEST] Deploy'
           command: |
-            echo 'Switch to test terraform workspace'
-            echo 'Run deploy script'
-      - run:
+            terraform init -backend-config="organisation=${TF_ORGANISATION}"
+            terraform workspace select test
+            cd deploy
+            ./deploy.sh
+      - deploy:
           name: '[TEST] End-to-end tests'
           command: |
             echo 'Run end-to-end tests against the test deployment'
@@ -43,14 +40,14 @@ jobs:
           command: |
             echo 'Switch to prod terraform workspace'
             echo 'Run deploy script'
-      - run:
+      - deploy:
           name: '[PROD] End-to-end tests'
           command: |
             echo 'Run end-to-end tests against the production deployment'
 
   notify:
     docker:
-      - image: 'circleci/node:12'
+      - image: micmania1/oddson:ci
     steps:
       - run:
           name: 'Notify slack'
@@ -68,6 +65,7 @@ workflows:
       - test_deployment:
           requires:
             - unit_test
+          context: 'Oddson'
           # filters:
           #   branches:
           #     only:
@@ -76,6 +74,7 @@ workflows:
       - prod_deployment:
           requires:
             - test_deployment
+          context: 'Oddson'
           # filters:
           #   branches:
           #     only:
