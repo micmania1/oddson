@@ -9,22 +9,22 @@ import { STATUS_ACTIVATED, STATUS_COMPLETE } from '../state/challenge';
 
 const { checkChallenge, activateChallenge } = ApiFactory();
 
-const Challenge = () => {
+const Challenge: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [challengeDetails, setChallengeDetails] = useState<ChallengeInt | undefined>();
   const [odds, updateOdds] = useState('');
   const [oddsError, updateOddsError] = useState('');
   const [number, updateChoice] = useState('');
   const [numberError, updateChoiceError] = useState('');
-  const {arenaId} = useParams();
+  const { arenaId } = useParams();
 
   useEffect(() => {
-    const load = async () => {
+    const load = async (): Promise<void> => {
       if (arenaId === undefined) {
         return;
       }
 
-      const {data: challengeInfo} = await checkChallenge(arenaId);
+      const { data: challengeInfo } = await checkChallenge(arenaId);
       setChallengeDetails(challengeInfo);
       setLoading(false);
     };
@@ -33,7 +33,7 @@ const Challenge = () => {
   }, [arenaId]);
 
   if (arenaId === undefined) {
-    return <Redirect to="/"/>
+    return <Redirect to="/" />
   }
 
   if (loading) {
@@ -44,7 +44,7 @@ const Challenge = () => {
     return <p>Challenge not found.</p>;
   }
 
-  const {challenger, victim, challenge} = challengeDetails;
+  const { challenger, victim, challenge } = challengeDetails;
 
   if (challengeDetails.status === STATUS_ACTIVATED) {
     return <p>Waiting for {challenger.name} to enter their number...</p>;
@@ -55,9 +55,9 @@ const Challenge = () => {
     return <Complete {...passProps} />
   }
 
-  const isInt = (input: string) => Number(input) % 1 === 0;
+  const isInt = (input: string): boolean => Number(input) % 1 === 0;
 
-  const validate = () => {
+  const validate = (): boolean => {
     if (Number(odds) < 1) {
       updateOddsError('Your odds must be greater than 0');
       return false;
@@ -89,10 +89,10 @@ const Challenge = () => {
     return true;
   };
 
-  const submit = async (e: FormEvent) => {
+  const submit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
     if (validate()) {
-      const {data: challengeInfo} = await activateChallenge(arenaId, {
+      const { data: challengeInfo } = await activateChallenge(arenaId, {
         odds: Number(odds),
         number: Number(number),
       });
@@ -114,7 +114,7 @@ const Challenge = () => {
           label="Your odds"
           fullWidth
           value={odds}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => updateOdds(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>): void => updateOdds(e.target.value)}
         />
       </Grid>
       <Grid item xs={12} md={6}>
@@ -125,7 +125,7 @@ const Challenge = () => {
           label="Your chosen number"
           fullWidth
           value={number}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => updateChoice(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>): void => updateChoice(e.target.value)}
         />
       </Grid>
       <Grid item xs={12} md={6}>

@@ -7,7 +7,7 @@ interface Props {
   challenge: Challenge;
 }
 
-const Complete = (props: Props) => {
+const Complete: React.FC<Props> = (props: Props) => {
   const { challenge } = props;
 
   const challengeMatched = Number(challenge.challenger.number) === Number(challenge.victim.number);
@@ -19,8 +19,8 @@ const Complete = (props: Props) => {
         <Typography component="p">{challenge.challenger.name}: {challenge.challenger.number}</Typography>
         <Typography component="p">{challenge.victim.name}: {challenge.victim.number}</Typography>
         <Typography component="p">Odds: {challenge.odds}</Typography>
-        <Typography component="p">{ challengeMatched && `Unluggy! ${challenge.victim.name} you have to ${challenge.challenge}!` }</Typography>
-        <Typography component="p">{ !challengeMatched && 'Close one!' }</Typography>
+        <Typography component="p">{challengeMatched && `Unluggy! ${challenge.victim.name} you have to ${challenge.challenge}!`}</Typography>
+        <Typography component="p">{!challengeMatched && 'Close one!'}</Typography>
       </Grid>
     </Grid>
   );

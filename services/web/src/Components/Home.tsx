@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface State {
-    person1: string;
-    person2: string;
-    challenge: string;
+  person1: string;
+  person2: string;
+  challenge: string;
 }
 
-const Home = () => {
+const Home: React.FC = () => {
   const classes = useStyles();
 
   const [redirectTo, setRedirectTo] = useState('');
@@ -34,7 +34,7 @@ const Home = () => {
     return <Redirect to={redirectTo} />
   }
 
-  const submit = async (e: FormEvent) => {
+  const submit = async (e: FormEvent): Promise<void> => {
     e.preventDefault();
 
     const body = {
@@ -54,13 +54,13 @@ const Home = () => {
         <Typography component="h1" variant="h2" className={classes.title}>Odds on?</Typography>
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField id="person1" label="Your name" fullWidth value={challenger} onChange={(e: ChangeEvent<HTMLInputElement>) => updateChallenger(e.target.value)} />
+        <TextField id="person1" label="Your name" fullWidth value={challenger} onChange={(e: ChangeEvent<HTMLInputElement>): void => updateChallenger(e.target.value)} />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField id="person2" label="Their name" fullWidth value={victim} onChange={(e: ChangeEvent<HTMLInputElement>) => updateVictim(e.target.value)}  />
+        <TextField id="person2" label="Their name" fullWidth value={victim} onChange={(e: ChangeEvent<HTMLInputElement>): void => updateVictim(e.target.value)} />
       </Grid>
       <Grid item xs={12}>
-        <TextField id="challenge" label="Challenge" fullWidth multiline value={challenge} onChange={(e: ChangeEvent<HTMLInputElement>) => updateChallenge(e.target.value)}  />
+        <TextField id="challenge" label="Challenge" fullWidth multiline value={challenge} onChange={(e: ChangeEvent<HTMLInputElement>): void => updateChallenge(e.target.value)} />
       </Grid>
       <Grid item xs={12}>
         <Button color="primary" variant="contained" type="submit">Create</Button>
