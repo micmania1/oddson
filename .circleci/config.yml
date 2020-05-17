@@ -52,8 +52,9 @@ jobs:
           environment:
             TF_WORKSPACE: "prod"
           command: |
-            echo 'Switch to prod terraform workspace'
-            echo 'Run deploy script'
+            cd ./deploy
+            terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
+            ./deploy.sh
       - deploy:
           name: "[PROD] End-to-end tests"
           command: |
