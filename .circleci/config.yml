@@ -7,11 +7,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: '[Web] Unit tests'
+          name: "[Web] Unit tests"
           command: |
             echo 'This is where our web unit tests would run'
       - run:
-          name: '[API] Integration tests'
+          name: "[API] Integration tests"
           command: |
             echo 'This is where our API integration tests would run'
 
@@ -21,26 +21,25 @@ jobs:
     steps:
       - checkout
       - run:
-          name: '[TEST] Install web'
+          name: "[TEST] Install web"
           command: |
             cd services/web
             yarn
       - run:
-          name: '[TEST] Install api'
+          name: "[TEST] Install api"
           command: |
             cd services/api
             yarn
       - deploy:
-          name: '[TEST] Deploy'
+          name: "[TEST] Deploy"
           environment:
             TF_WORKSPACE: "test"
-            TF_VAR_environment_type: "test"
           command: |
             cd ./deploy
             terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
             ./deploy.sh
       - deploy:
-          name: '[TEST] End-to-end tests'
+          name: "[TEST] End-to-end tests"
           command: |
             echo 'Run end-to-end tests against the test deployment'
 
@@ -49,15 +48,14 @@ jobs:
       - image: micmania1/oddson:ci
     steps:
       - deploy:
-          name: '[PROD] Deploy'
+          name: "[PROD] Deploy"
           environment:
             TF_WORKSPACE: "prod"
-            TF_VAR_environment_type: "prod"
           command: |
             echo 'Switch to prod terraform workspace'
             echo 'Run deploy script'
       - deploy:
-          name: '[PROD] End-to-end tests'
+          name: "[PROD] End-to-end tests"
           command: |
             echo 'Run end-to-end tests against the production deployment'
 
@@ -66,7 +64,7 @@ jobs:
       - image: micmania1/oddson:ci
     steps:
       - run:
-          name: 'Notify slack'
+          name: "Notify slack"
           command: |
             echo 'Send a slack notification with the result of te build'
             echo 'If the build has failed, include instructions for how to deploy the old version'
@@ -81,7 +79,7 @@ workflows:
       - test_deployment:
           requires:
             - unit_test
-          context: 'Oddson'
+          context: "Oddson"
           # filters:
           #   branches:
           #     only:
@@ -90,7 +88,7 @@ workflows:
       - prod_deployment:
           requires:
             - test_deployment
-          context: 'Oddson'
+          context: "Oddson"
           # filters:
           #   branches:
           #     only:
@@ -103,7 +101,3 @@ workflows:
           #   branches:
           #     only:
           #       - master
-
-
-
-
