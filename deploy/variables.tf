@@ -11,7 +11,7 @@ variable "application_title" {
 }
 
 variable "environment_type" {
-  default     = "prod"
+  default     = "default"
   type        = string
   description = "Used in AWS resourse names so should include chars and underscores only."
 }
@@ -29,7 +29,17 @@ variable "aws_profile" {
 }
 
 variable "domain" {
-  default     = "oddson.dev"
-  type        = string
-  description = "Root level domain uses as a base for other domains (eg. api.oddson.dev)"
+  type    = string
+  default = "oddson.dev"
+}
+
+variable "web_domains" {
+  type    = list(string)
+  default = []
+}
+
+variable "api_domains" {
+  type        = list(string)
+  description = "The API domain must be unique within an AWS account. This domain must be a subdomain of the root domain variable."
+  default     = []
 }

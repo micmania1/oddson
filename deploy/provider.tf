@@ -12,3 +12,8 @@ terraform {
     }
   }
 }
+
+locals {
+  environment_type = var.environment_type
+  include_domains  = var.domain == "" ? false : true
+}
