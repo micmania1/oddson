@@ -37,6 +37,7 @@ jobs:
           command: |
             cd ./deploy
             terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
+            terraform workspace select "$TF_WORKSPACE"
             ./deploy.sh
       - deploy:
           name: "[TEST] End-to-end tests"
@@ -65,6 +66,7 @@ jobs:
           command: |
             cd ./deploy
             terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
+            terraform workspace select "$TF_WORKSPACE"
             ./deploy.sh
       - deploy:
           name: "[PROD] End-to-end tests"
