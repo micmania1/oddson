@@ -5,7 +5,8 @@ set -e
 ./pre_deploy.sh
 
 # Run terraform
-TF_VARS_FILE=$(terraform workspace show)
+# CircleCI uses the TF_WORKSPACE env variable
+TF_VARS_FILE=$($TF_WORKSPACE || terraform workspace show)
 
 if [ -f "${TF_VARS_FILE}.tfvars" ]
 then
