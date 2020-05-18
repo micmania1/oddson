@@ -6,7 +6,7 @@ resource "aws_route53_zone" "domain" {
 
 # SSL certificates
 resource "aws_route53_record" "cert_validation" {
-  count           = local.include_domains ? length(concat(var.api_domains, var.web_domains)) : 0
+  count           = local.include_domains ? length(local.all_domains) : 0
   name            = aws_acm_certificate.domain_cert[0].domain_validation_options[count.index].resource_record_name
   type            = aws_acm_certificate.domain_cert[0].domain_validation_options[count.index].resource_record_type
   zone_id         = aws_route53_zone.domain[0].zone_id
@@ -24,10 +24,7 @@ resource "aws_acm_certificate" "domain_cert" {
     create_before_destroy = true
   }
 
-  subject_alternative_names = concat(
-    var.api_domains,
-    var.web_domains
-  )
+  subject_alternative_names = setsubtract(local.all_domains, [var.domain])
 }
 
 resource "aws_acm_certificate_validation" "domain_cert_validation" {
