@@ -6,7 +6,11 @@ set -e
 
 # Run terraform
 # CircleCI uses the TF_WORKSPACE env variable
-TF_VARS_FILE=$($TF_WORKSPACE || terraform workspace show)
+TF_VARS_FILE="$TF_WORKSPACE"
+if [ -z "$TF_VARS_FILE" ]
+then
+  TF_VARS_FILE=$(terraform workspace show)
+fi
 
 if [ -f "${TF_VARS_FILE}.tfvars" ]
 then
