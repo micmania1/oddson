@@ -32,11 +32,10 @@ jobs:
             yarn
       - deploy:
           name: "[TEST] Deploy"
-          environment:
-            TF_WORKSPACE: "test"
           command: |
             cd ./deploy
-            terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
+            TF_WORKSPACE="test" terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
+            terraform workspace select test
             ./deploy.sh
       - deploy:
           name: "[TEST] End-to-end tests"
@@ -60,11 +59,10 @@ jobs:
             yarn
       - deploy:
           name: "[PROD] Deploy"
-          environment:
-            TF_WORKSPACE: "prod"
           command: |
             cd ./deploy
-            terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
+            TF_WORKSPACE="prod" terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
+            terraform workspace select prod
             ./deploy.sh
       - deploy:
           name: "[PROD] End-to-end tests"
