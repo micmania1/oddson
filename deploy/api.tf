@@ -15,13 +15,13 @@ resource "aws_iam_role" "api_function_role" {
   assume_role_policy = file("./assets/policies/api.json")
 }
 
-resource "aws_iam_role_policy" "db_role" {
-  name   = "${var.application_id}_db_read_policy"
+resource "aws_iam_role_policy" "db_policy" {
+  name   = "${var.application_id}_db_policy"
   role   = aws_iam_role.api_function_role.id
   policy = templatefile("./assets/policies/db_role.json", { db_resource : aws_dynamodb_table.table.arn })
 }
 
-resource "aws_iam_role_policy" "api_logs" {
+resource "aws_iam_role_policy" "api_logs_policy" {
   name   = "${var.application_id}_${var.environment_type}_api_logs_policy"
   role   = aws_iam_role.api_function_role.id
   policy = templatefile("./assets/policies/api_logs.json", { cloudwatch_resource : aws_cloudwatch_log_group.logs.arn })

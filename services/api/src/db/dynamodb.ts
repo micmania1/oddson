@@ -1,7 +1,10 @@
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 
-const TABLE_NAME = "oddson_challenges";
+let TABLE_NAME = "oddson_challenges";
+if (process.env.AWS_DYNAMODB_TABLE !== undefined) {
+  TABLE_NAME = process.env.AWS_DYNAMODB_TABLE;
+}
 
 let dbConnection: AWS.DynamoDB;
 let dbClient: AWS.DynamoDB.DocumentClient;
