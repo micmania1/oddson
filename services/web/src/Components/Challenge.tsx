@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent, useCallback } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { TextField, Button } from '@material-ui/core';
 import { Redirect, useParams } from 'react-router-dom';
@@ -18,19 +18,27 @@ const Challenge: React.FC = () => {
   const [numberError, updateChoiceError] = useState('');
   const { arenaId } = useParams();
 
-  useEffect(() => {
-    const load = async (): Promise<void> => {
-      if (arenaId === undefined) {
-        return;
-      }
+  const load = useCallback(async (): Promise<void> => {
+    if (arenaId === undefined) {
+      return;
+    }
 
-      const { data: challengeInfo } = await checkChallenge(arenaId);
-      setChallengeDetails(challengeInfo);
-      setLoading(false);
-    };
-
-    load();
+    const { data: challengeInfo } = await checkChallenge(arenaId);
+    setChallengeDetails(challengeInfo);
+    setLoading(false);
   }, [arenaId]);
+
+  useEffect(() => {
+    load();
+  }, [arenaId, load]);
+
+  useEffect(() => {
+    if (challengeDetails && challengeDetails.status !== STATUS_COMPLETE) {
+      const interval = setInterval(load, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [load, challengeDetails]);
 
   if (arenaId === undefined) {
     return <Redirect to="/" />

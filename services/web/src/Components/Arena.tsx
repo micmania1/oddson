@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import ApiFactory from '../Utils/api';
@@ -16,19 +16,27 @@ const Arena: React.FC = () => {
   const [challenge, setChallenge] = useState<Challenge | undefined>();
   const { arenaId } = useParams();
 
-  useEffect(() => {
-    const load = async (): Promise<void> => {
-      if (arenaId === undefined) {
-        return;
-      }
+  const load = useCallback(async (): Promise<void> => {
+    if (arenaId === undefined) {
+      return;
+    }
 
-      const { data: challengeInfo } = await checkChallenge(arenaId);
-      setChallenge(challengeInfo);
-      setLoading(false);
-    };
-
-    load();
+    const { data: challengeInfo } = await checkChallenge(arenaId);
+    setChallenge(challengeInfo);
+    setLoading(false);
   }, [arenaId]);
+
+  useEffect(() => {
+    load();
+  }, [arenaId, load]);
+
+  useEffect(() => {
+    if (challenge && challenge.status !== STATUS_COMPLETE) {
+      const interval = setInterval(load, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [load, challenge]);
 
   if (arenaId === undefined) {
     return <Redirect to="/" />
