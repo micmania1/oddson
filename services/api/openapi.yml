@@ -8,40 +8,40 @@ paths:
     get:
       responses:
         404:
-          description: 'Not Found'
+          description: "Not Found"
       x-amazon-apigateway-integration:
         uri: ${api_function}
-        type: 'aws_proxy'
-        httpMethod: 'POST'
+        type: "aws_proxy"
+        httpMethod: "POST"
   /new:
     post:
       summary: Creates a new challenge
       operationId: createChallenge
       responses:
-        '200':
+        "200":
           description: Challenge created
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/Challenge'
-        '400':
-          description: 'invalid input, object invalid'
-        '409':
+                $ref: "#/components/schemas/Challenge"
+        "400":
+          description: "invalid input, object invalid"
+        "409":
           description: an existing item already exists
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateChallengeRequest'
+              $ref: "#/components/schemas/CreateChallengeRequest"
       x-amazon-apigateway-integration:
         uri: ${api_function}
-        type: 'aws_proxy'
-        httpMethod: 'POST'
+        type: "aws_proxy"
+        httpMethod: "POST"
     options:
       responses:
         200:
-          description: 'Response to CORS'
+          description: "Response to CORS"
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -55,23 +55,23 @@ paths:
           content: {}
       x-amazon-apigateway-integration:
         uri: ${api_function}
-        type: 'aws_proxy'
-        httpMethod: 'POST'
+        type: "aws_proxy"
+        httpMethod: "POST"
 
   /activate/{id}:
     post:
       summary: Victim activates the challenge by entering their odds
       operationId: activateChallenge
       responses:
-        '200':
+        "200":
           description: Challenge activated
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/ChallengeResponse'
-        '400':
-          description: 'invalid input, object invalid'
+                $ref: "#/components/schemas/ChallengeResponse"
+        "400":
+          description: "invalid input, object invalid"
       parameters:
         - in: path
           name: id
@@ -84,15 +84,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ActivateChallengeRequest'
+              $ref: "#/components/schemas/ActivateChallengeRequest"
       x-amazon-apigateway-integration:
         uri: ${api_function}
-        type: 'aws_proxy'
-        httpMethod: 'POST'
+        type: "aws_proxy"
+        httpMethod: "POST"
     options:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: challenge id
       responses:
         200:
-          description: 'Response to CORS'
+          description: "Response to CORS"
+          content: {}
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -103,24 +112,23 @@ paths:
             Access-Control-Allow-Headers:
               schema:
                 type: string
-          content: {}
       x-amazon-apigateway-integration:
         uri: ${api_function}
-        type: 'aws_proxy'
-        httpMethod: 'POST'
+        type: "aws_proxy"
+        httpMethod: "POST"
 
-  /complete/{id}:
+  "/complete/{id}":
     post:
       summary: Complete the challenge by guessing the victim's odds
       operationId: completeChallenge
       responses:
-        '200':
+        "200":
           description: Challenge outcome
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/CompleteChallengeResponse'
+                $ref: "#/components/schemas/CompleteChallengeResponse"
       parameters:
         - in: path
           name: id
@@ -133,15 +141,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CompleteChallengeRequest'
+              $ref: "#/components/schemas/CompleteChallengeRequest"
       x-amazon-apigateway-integration:
         uri: ${api_function}
-        type: 'aws_proxy'
-        httpMethod: 'POST'
+        type: "aws_proxy"
+        httpMethod: "POST"
     options:
       responses:
         200:
-          description: 'Response to CORS'
+          description: "Response to CORS"
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -153,23 +161,31 @@ paths:
               schema:
                 type: string
           content: {}
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: challenge id
       x-amazon-apigateway-integration:
         uri: ${api_function}
-        type: 'aws_proxy'
-        httpMethod: 'POST'
+        type: "aws_proxy"
+        httpMethod: "POST"
 
   /check/{id}:
     get:
       summary: Check the status of an existing challenge
       operationId: checkChallenge
       responses:
-        '200':
+        "200":
           description: Challenge status
           content:
             application/json:
               schema:
                 type: object
-                $ref: '#/components/schemas/CheckResponse'
+                $ref: "#/components/schemas/CheckResponse"
       parameters:
         - in: path
           name: id
@@ -180,12 +196,12 @@ paths:
           description: challenge id
       x-amazon-apigateway-integration:
         uri: ${api_function}
-        type: 'aws_proxy'
-        httpMethod: 'POST'
+        type: "aws_proxy"
+        httpMethod: "POST"
     options:
       responses:
         200:
-          description: 'Response to CORS'
+          description: "Response to CORS"
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -197,37 +213,45 @@ paths:
               schema:
                 type: string
           content: {}
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: challenge id
       x-amazon-apigateway-integration:
         uri: ${api_function}
-        type: 'aws_proxy'
-        httpMethod: 'POST'
+        type: "aws_proxy"
+        httpMethod: "POST"
 
 components:
   x-amazon-apigateway-integrations:
     oddson_express:
       uri: ${api_function}
-      type: 'aws_proxy'
-      httpMethod: 'POST'
+      type: "aws_proxy"
+      httpMethod: "POST"
 
   schemas:
     # Response Models
     CheckResponse:
       allOf:
-        - $ref: '#/components/schemas/Challenge'
+        - $ref: "#/components/schemas/Challenge"
       example:
         id: fe5d746a-e582-4cec-b2c8-d0c44e9108d1
         challenge: Do the thing
-        odds: 2
+        odds: 20
         challenger:
           name: Challenger
           number: 4
         victim:
           name: Victim
           number: 2
-        status: activated
+        status: complete
     ChallengeResponse:
       allOf:
-        - $ref: '#/components/schemas/Challenge'
+        - $ref: "#/components/schemas/Challenge"
       example:
         id: fe5d746a-e582-4cec-b2c8-d0c44e9108d1
         challenge: Do the thing
@@ -241,7 +265,7 @@ components:
         status: activated
     CompleteChallengeResponse:
       allOf:
-        - $ref: '#/components/schemas/Challenge'
+        - $ref: "#/components/schemas/Challenge"
       example:
         id: fe5d746a-e582-4cec-b2c8-d0c44e9108d1
         challenge: Do the thing
@@ -253,7 +277,6 @@ components:
           name: Victim
           number: 7
         status: complete
-
 
     # Request Models
     CreateChallengeRequest:
@@ -316,9 +339,9 @@ components:
         odds:
           type: number
         challenger:
-          $ref: '#/components/schemas/Person'
+          $ref: "#/components/schemas/Person"
         victim:
-          $ref: '#/components/schemas/Person'
+          $ref: "#/components/schemas/Person"
         status:
           type: string
           enum: [new, activated, complete]

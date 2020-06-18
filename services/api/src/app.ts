@@ -18,6 +18,7 @@ router.options('/new', cors(corsOptions));
 router.post('/new', cors(corsOptions), async (req, res) => {
   const { challenger, challenge, victim } = req.body;
   const dbResponse = await DB.createNewChallenge(challenger, challenge, victim)
+  console.log(dbResponse);
   res.json(dbResponse);
 });
 

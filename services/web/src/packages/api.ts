@@ -191,7 +191,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options: any = {}): RequestArgs {
+        activateChallenge: async (id: string, activateChallengeRequest?: ActivateChallengeRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling activateChallenge.');
@@ -214,9 +214,45 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof activateChallengeRequest !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(activateChallengeRequest !== undefined ? activateChallengeRequest : {}) : (activateChallengeRequest || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id challenge id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        activateIdOptions: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling activateIdOptions.');
+            }
+            const localVarPath = `/activate/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'OPTIONS', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -230,7 +266,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        checkChallenge(id: string, options: any = {}): RequestArgs {
+        checkChallenge: async (id: string, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling checkChallenge.');
@@ -251,7 +287,43 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id challenge id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        checkIdOptions: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling checkIdOptions.');
+            }
+            const localVarPath = `/check/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'OPTIONS', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -266,7 +338,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        completeChallenge(id: string, completeChallengeRequest?: CompleteChallengeRequest, options: any = {}): RequestArgs {
+        completeChallenge: async (id: string, completeChallengeRequest?: CompleteChallengeRequest, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling completeChallenge.');
@@ -289,9 +361,45 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof completeChallengeRequest !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(completeChallengeRequest !== undefined ? completeChallengeRequest : {}) : (completeChallengeRequest || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id challenge id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        completeIdOptions: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling completeIdOptions.');
+            }
+            const localVarPath = `/complete/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'OPTIONS', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -305,7 +413,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createChallenge(createChallengeRequest?: CreateChallengeRequest, options: any = {}): RequestArgs {
+        createChallenge: async (createChallengeRequest?: CreateChallengeRequest, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/new`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
@@ -323,7 +431,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof createChallengeRequest !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(createChallengeRequest !== undefined ? createChallengeRequest : {}) : (createChallengeRequest || "");
 
@@ -337,7 +446,36 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rootGet(options: any = {}): RequestArgs {
+        newOptions: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/new`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'OPTIONS', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        rootGet: async (options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
@@ -353,7 +491,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -377,8 +516,21 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChallengeResponse> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).activateChallenge(id, activateChallengeRequest, options);
+        async activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChallengeResponse>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).activateChallenge(id, activateChallengeRequest, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {string} id challenge id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async activateIdOptions(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).activateIdOptions(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -391,8 +543,21 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        checkChallenge(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CheckResponse> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).checkChallenge(id, options);
+        async checkChallenge(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CheckResponse>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).checkChallenge(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {string} id challenge id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async checkIdOptions(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).checkIdOptions(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -406,8 +571,21 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        completeChallenge(id: string, completeChallengeRequest?: CompleteChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompleteChallengeResponse> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).completeChallenge(id, completeChallengeRequest, options);
+        async completeChallenge(id: string, completeChallengeRequest?: CompleteChallengeRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CompleteChallengeResponse>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).completeChallenge(id, completeChallengeRequest, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {string} id challenge id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async completeIdOptions(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).completeIdOptions(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -420,8 +598,8 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createChallenge(createChallengeRequest?: CreateChallengeRequest, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Challenge> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).createChallenge(createChallengeRequest, options);
+        async createChallenge(createChallengeRequest?: CreateChallengeRequest, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Challenge>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).createChallenge(createChallengeRequest, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -432,8 +610,20 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rootGet(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).rootGet(options);
+        async newOptions(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).newOptions(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async rootGet(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).rootGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -457,7 +647,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any): AxiosPromise<ChallengeResponse> {
-            return DefaultApiFp(configuration).activateChallenge(id, activateChallengeRequest, options)(axios, basePath);
+            return DefaultApiFp(configuration).activateChallenge(id, activateChallengeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id challenge id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        activateIdOptions(id: string, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).activateIdOptions(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -467,7 +666,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         checkChallenge(id: string, options?: any): AxiosPromise<CheckResponse> {
-            return DefaultApiFp(configuration).checkChallenge(id, options)(axios, basePath);
+            return DefaultApiFp(configuration).checkChallenge(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id challenge id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        checkIdOptions(id: string, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).checkIdOptions(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -478,7 +686,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         completeChallenge(id: string, completeChallengeRequest?: CompleteChallengeRequest, options?: any): AxiosPromise<CompleteChallengeResponse> {
-            return DefaultApiFp(configuration).completeChallenge(id, completeChallengeRequest, options)(axios, basePath);
+            return DefaultApiFp(configuration).completeChallenge(id, completeChallengeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id challenge id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        completeIdOptions(id: string, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).completeIdOptions(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -488,7 +705,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         createChallenge(createChallengeRequest?: CreateChallengeRequest, options?: any): AxiosPromise<Challenge> {
-            return DefaultApiFp(configuration).createChallenge(createChallengeRequest, options)(axios, basePath);
+            return DefaultApiFp(configuration).createChallenge(createChallengeRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newOptions(options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).newOptions(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -496,7 +721,7 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         rootGet(options?: any): AxiosPromise<void> {
-            return DefaultApiFp(configuration).rootGet(options)(axios, basePath);
+            return DefaultApiFp(configuration).rootGet(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -518,7 +743,18 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public activateChallenge(id: string, activateChallengeRequest?: ActivateChallengeRequest, options?: any) {
-        return DefaultApiFp(this.configuration).activateChallenge(id, activateChallengeRequest, options)(this.axios, this.basePath);
+        return DefaultApiFp(this.configuration).activateChallenge(id, activateChallengeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id challenge id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public activateIdOptions(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).activateIdOptions(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -530,7 +766,18 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public checkChallenge(id: string, options?: any) {
-        return DefaultApiFp(this.configuration).checkChallenge(id, options)(this.axios, this.basePath);
+        return DefaultApiFp(this.configuration).checkChallenge(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id challenge id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public checkIdOptions(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).checkIdOptions(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -543,7 +790,18 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public completeChallenge(id: string, completeChallengeRequest?: CompleteChallengeRequest, options?: any) {
-        return DefaultApiFp(this.configuration).completeChallenge(id, completeChallengeRequest, options)(this.axios, this.basePath);
+        return DefaultApiFp(this.configuration).completeChallenge(id, completeChallengeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id challenge id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public completeIdOptions(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).completeIdOptions(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -555,7 +813,17 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public createChallenge(createChallengeRequest?: CreateChallengeRequest, options?: any) {
-        return DefaultApiFp(this.configuration).createChallenge(createChallengeRequest, options)(this.axios, this.basePath);
+        return DefaultApiFp(this.configuration).createChallenge(createChallengeRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public newOptions(options?: any) {
+        return DefaultApiFp(this.configuration).newOptions(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -565,7 +833,7 @@ export class DefaultApi extends BaseAPI {
      * @memberof DefaultApi
      */
     public rootGet(options?: any) {
-        return DefaultApiFp(this.configuration).rootGet(options)(this.axios, this.basePath);
+        return DefaultApiFp(this.configuration).rootGet(options).then((request) => request(this.axios, this.basePath));
     }
 
 }

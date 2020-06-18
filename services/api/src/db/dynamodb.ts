@@ -59,13 +59,13 @@ const setupDatabase = () => {
     TableName: TABLE_NAME,
     AttributeDefinitions: [
       {
-        AttributeName: "uuid",
+        AttributeName: "id",
         AttributeType: "S",
       },
     ],
     KeySchema: [
       {
-        AttributeName: "uuid",
+        AttributeName: "id",
         KeyType: "HASH",
       },
     ],
@@ -131,7 +131,7 @@ const createNewChallenge = async (challenger: string, challenge: string, victim:
       name: victim,
       number: null
     },
-    uuid: uuidv4(),
+    id: uuidv4(),
     status: "new"
   }
 
@@ -152,7 +152,7 @@ const createNewChallenge = async (challenger: string, challenge: string, victim:
             odds: item.odds,
             challenger: item.challenger,
             victim: item.victim,
-            id: item.uuid // Need to rename this to id for API response
+            id: item.id
           }
         );
       }
@@ -165,11 +165,11 @@ const createNewChallenge = async (challenger: string, challenge: string, victim:
  *
  * @param body
  */
-const getChallenge = async (uuid: string) => {
+const getChallenge = async (id: string) => {
   const params: AWS.DynamoDB.DocumentClient.GetItemInput = {
     TableName: TABLE_NAME,
     Key: {
-      uuid: uuid,
+      id,
     }
   };
 
@@ -190,10 +190,10 @@ const getChallenge = async (uuid: string) => {
  *
  * @param body
  */
-const activateChallenge = async (uuid: string, odds: number, victim_number: number) => {
+const activateChallenge = async (id: string, odds: number, victim_number: number) => {
   const params: AWS.DynamoDB.DocumentClient.UpdateItemInput = {
     Key: {
-      uuid: uuid,
+      id,
     },
     UpdateExpression: "set #victim.#number = :victim_number, #odds = :odds, #status = :status",
     ExpressionAttributeNames: {
@@ -228,10 +228,10 @@ const activateChallenge = async (uuid: string, odds: number, victim_number: numb
  *
  * @param body
  */
-const completeChallenge = async (uuid: string, challenger_number: number) => {
+const completeChallenge = async (id: string, challenger_number: number) => {
   const params: AWS.DynamoDB.DocumentClient.UpdateItemInput = {
     Key: {
-      uuid: uuid,
+      id,
     },
     UpdateExpression: "set #challenger.#number = :challenger_number, #status = :status",
     ExpressionAttributeNames: {
