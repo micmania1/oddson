@@ -36,7 +36,7 @@ jobs:
             cd ./deploy
             TF_WORKSPACE="test" terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
             terraform workspace select test
-            ./deploy.sh
+            AWS_DYNAMODB_TABLE="oddson_test" ./deploy.sh
       - deploy:
           name: "[TEST] End-to-end tests"
           command: |
@@ -63,7 +63,7 @@ jobs:
             cd ./deploy
             TF_WORKSPACE="prod" terraform init -backend-config="organization=${TF_ORGANISATION}" -backend-config="token=${TF_API_TOKEN}" -input=false
             terraform workspace select prod
-            ./deploy.sh
+            AWS_DYNAMODB_TABLE="oddson_prod" ./deploy.sh
       - deploy:
           name: "[PROD] End-to-end tests"
           command: |

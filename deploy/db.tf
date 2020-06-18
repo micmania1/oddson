@@ -1,12 +1,12 @@
 resource "aws_dynamodb_table" "table" {
-  name           = "${var.application_id}_${var.environment_type}"
+  name           = var.db_table_name
   billing_mode   = "PROVISIONED"
   read_capacity  = 5
   write_capacity = 5
-  hash_key       = "uuid"
+  hash_key       = "id"
 
   attribute {
-    name = "uuid"
+    name = "id"
     type = "S"
   }
 }

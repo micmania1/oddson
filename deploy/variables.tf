@@ -43,3 +43,9 @@ variable "api_domains" {
   description = "The API domain must be unique within an AWS account. This domain must be a subdomain of the root domain variable."
   default     = []
 }
+
+variable "db_table_name" {
+  type = string
+  description = "The DynamoDB table name"
+  default = "oddson"
+}

@@ -35,6 +35,12 @@ resource "aws_lambda_function" "api_function" {
   handler          = "app.handler"
   publish          = true
   source_code_hash = filebase64sha256("../services/api/build/app.zip")
+
+  environment {
+    variables = {
+      AWS_DYNAMODB_TABLE = var.db_table_name
+    }
+  }
 }
 
 resource "aws_lambda_permission" "api_function_permission" {

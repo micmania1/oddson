@@ -7,3 +7,4 @@ web_domains = [
 api_domains = [
   "api.oddson.dev"
 ]
+db_table_name = "oddson_prod"
